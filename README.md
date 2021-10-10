@@ -13,6 +13,7 @@ Task 1: (SRS - Part 3: Detail requirements)
 * Linh: View	Bike	in	Station	and/or	View	Bike	Information
 * Lan: Rent	Bike
 * Nhung: Return	Bike
+
 Task 2: 
 * Lan: Part 1: Introduction
 * Nhung: Part 2: Overall Description
