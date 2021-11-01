@@ -1,4 +1,15 @@
 # TKXDPM.KSCQ.20211-17
+ # LAB 01 - ARCHITECTURAL DESIGN
+ 
+ ## Tasks
+ 1. Sequence Diagram, Communication Diagram, Analysis Class Diagram for all use cases
+
+## Contributors
+* Linh: View	Bike	in	Station	and/or	View	Bike	Information
+* Lan: Rent	Bike
+* Nhung: Return	Bike
+
+#
  # LAB 00 - SRS
  
  ## Tasks
@@ -18,5 +29,3 @@ Task 2:
 * Lan: Part 1: Introduction
 * Nhung: Part 2: Overall Description
 * Linh: Part 4: Supplementary specification
-
-## Revisions
