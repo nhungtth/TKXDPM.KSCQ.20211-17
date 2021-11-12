@@ -9,6 +9,7 @@ Task 1:
 * Linh: Home Screen, Station Information Screen, Bike Information Screen
 * Lan: Rent	Bike Screen
 * Nhung: Return	Bike Screen, Transaction Screen
+
 Task 2: All
 
 #
