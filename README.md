@@ -1,4 +1,26 @@
 # TKXDPM.KSCQ.20211-17
+ # LAB 03 - CLASS DESIGN AND DATA MODELING
+## Tasks
+ 1. Class Design
+* Class Design Diagram
+* Class Specification
+
+ 2. Data Modeling
+* ERD
+* Logical Data Model
+* Physical Data Model
+* Database script
+
+## Contributors
+Task 1:
+* All: Class Design Diagram
+* Linh + Nhung: Class Specification
+
+Task 2:
+* All: ERD, Logical Data Model, Database script
+* Lan: Physical Data Model
+
+#
  # LAB 02 - INTERFACE DESIGN
 ## Tasks
  1. User Interface Design
@@ -7,7 +29,7 @@
 ## Contributors
 Task 1:
 * Linh: Home Screen, Station Information Screen, Bike Information Screen
-* Lan: Rent	Bike Screen
+* Lan: Rent Bike Screen
 * Nhung: Return	Bike Screen, Transaction Screen
 
 Task 2: All
@@ -19,24 +41,24 @@ Task 2: All
  1. Sequence Diagram, Communication Diagram, Analysis Class Diagram for all use cases
 
 ## Contributors
-* Linh: View	Bike	in	Station	and/or	View	Bike	Information
-* Lan: Rent	Bike
+* Linh: View Bike in Station and/or View Bike Information
+* Lan: Rent Bike
 * Nhung: Return	Bike
 
 #
  # LAB 00 - SRS
  
  ## Tasks
- 1. Complete	 use	 case	 specifications	 for	 the	 following	 use	 cases
-* View	Bike	in	Station	and/or	View	Bike	Information
+ 1. Complete use case specifications for the following use cases
+* View	Bike in	Station	and/or View Bike Information
 * Rent	Bike
-* Return	Bike
-2. Complete	the	Software	Requirement	Specification	(SRS)	
+* Return Bike
+2. Complete the	Software Requirement Specification (SRS)	
 
 ## Contributors
 Task 1: (SRS - Part 3: Detail requirements)
-* Linh: View	Bike	in	Station	and/or	View	Bike	Information
-* Lan: Rent	Bike
+* Linh: View Bike in Station and/or View Bike Information
+* Lan: Rent Bike
 * Nhung: Return	Bike
 
 Task 2: 
