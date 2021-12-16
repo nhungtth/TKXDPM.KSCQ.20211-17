@@ -3,15 +3,15 @@ package subsystem;
 import common.exception.InternalServerErrorException;
 import common.exception.InvalidCardException;
 import common.exception.NotEnoughBalanceException;
-import entity.payment.CreditCard;
-import entity.payment.PaymentTransaction;
+import entity.transaction.CreditCard;
+import entity.transaction.Transaction;
 import subsystem.interbank.InterbankSubsystemController;
 
 /***
  * The {@code InterbankSubsystem} class is used to communicate with the
  * Interbank to make transaction.
  * 
- * @author hieud
+ * @author NhungTTH
  *
  */
 public class InterbankSubsystem implements InterbankInterface {
@@ -31,20 +31,11 @@ public class InterbankSubsystem implements InterbankInterface {
 	}
 
 	/**
-	 * @see InterbankInterface#payOrder(entity.payment.CreditCard, int,
-	 *      java.lang.String)
+	 * @see InterbankInterface#processTransaction(entity.transaction.CreditCard, int,
+	 *      java.lang.String, java.lang.String)
 	 */
-	public PaymentTransaction payOrder(CreditCard card, int amount, String contents) {
-		PaymentTransaction transaction = ctrl.payOrder(card, amount, contents);
-		return transaction;
-	}
-
-	/**
-	 * @see InterbankInterface#refund(entity.payment.CreditCard, int,
-	 *      java.lang.String)
-	 */
-	public PaymentTransaction refund(CreditCard card, int amount, String contents) {
-		PaymentTransaction transaction = ctrl.refund(card, amount, contents);
+	public Transaction processTransaction(CreditCard card, int amount, String contents, String type) {
+		Transaction transaction = ctrl.processTransaction(card, amount, contents, type);
 		return transaction;
 	}
 }

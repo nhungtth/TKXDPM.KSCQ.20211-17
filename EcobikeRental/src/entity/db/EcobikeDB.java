@@ -14,7 +14,7 @@ public class EcobikeDB {
         if (connect != null) return connect;
         try {
         	Class.forName("com.mysql.jdbc.Driver"); 
-        	String url = "jdbc:mysql://localhost:3306/ecobike_rental";
+        	String url = "jdbc:mysql://localhost:3306/ecobike";
         	connect =DriverManager.getConnection(url, "root", "");  
             LOGGER.info("Connect database successfully");
         } catch (Exception e) {

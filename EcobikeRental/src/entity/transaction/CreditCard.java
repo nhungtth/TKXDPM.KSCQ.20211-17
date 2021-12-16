@@ -1,4 +1,4 @@
-package entity.payment;
+package entity.transaction;
 
 import java.sql.Timestamp;
 

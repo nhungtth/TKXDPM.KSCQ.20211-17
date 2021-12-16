@@ -3,9 +3,11 @@ package utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -25,22 +27,14 @@ public class Utils {
 		return Logger.getLogger(className);
 	}
 
-	public static String getCurrencyFormat(int num) {
-		Locale vietname = new Locale("vi", "VN");
-		NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(vietname);
-		return defaultFormat.format(num);
-	}
-
 	/**
-	 * Return a {@link java.lang.String String} that represents the current time in the format of yyyy-MM-dd HH:mm:ss.
+	 * Return a {@link java.lang.String String} that represents the current time.
 	 * 
-	 * @author hieudm
-	 * @return the current time as {@link java.lang.String String}.
+	 * @author NhungTTH
+	 * @return the current time as {@link java.sql.Timestamp Timestamp}.
 	 */
-	public static String getToday() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    Date date = new Date();
-	    return dateFormat.format(date);
+	public static Timestamp getToday() {
+	    return new Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
 
 	/**

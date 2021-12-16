@@ -1,13 +1,14 @@
 package entity.bike;
 
 public class StandardBike extends Bike{
-	private int id;
+	private String id;
 	private int timeLimit;
 	private int battery;
-	public int getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public int getTimeLimit() {

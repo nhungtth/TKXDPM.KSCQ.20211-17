@@ -19,8 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import entity.payment.CreditCard;
-import entity.payment.PaymentTransaction;
+import entity.transaction.CreditCard;
 
 /**
  * Class cung cap cac phuong thuc gui request len server va nhan du lieu tra ve

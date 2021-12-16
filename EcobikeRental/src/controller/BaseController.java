@@ -1,25 +1,22 @@
 package controller;
 
-import java.util.List;
-
-import entity.cart.Cart;
-import entity.cart.CartMedia;
-import entity.media.Media;
 import entity.rentbike.RentBike;
+import entity.user.User;
 
 /**
- * This class is the base controller for our AIMS project
+ * This class is the base controller for our EcobikeRental project
  * 
  * @author NhungTTH
  */
 public class BaseController {
-
+	
 	// get current bike rented
-	public RentBike getRentBike() {
-
+	public static RentBike getRentBike() {
+		return RentBike.getCurrentBike();
 	}
 	
-	public User getUser() {
-		
+	// get current user
+	public static User getUser() {
+		return User.getCurrentUser();
 	}
 }

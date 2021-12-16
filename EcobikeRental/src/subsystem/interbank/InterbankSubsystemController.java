@@ -10,8 +10,8 @@ import common.exception.NotEnoughBalanceException;
 import common.exception.NotEnoughTransactionInfoException;
 import common.exception.SuspiciousTransactionException;
 import common.exception.UnrecognizedException;
-import entity.payment.CreditCard;
-import entity.payment.PaymentTransaction;
+import entity.transaction.CreditCard;
+import entity.transaction.Transaction;
 import utils.Configs;
 import utils.MyMap;
 import utils.Utils;
@@ -20,20 +20,15 @@ public class InterbankSubsystemController {
 
 	private static final String PUBLIC_KEY = "Bl8Ytl9yVqs=";
 	private static final String SECRET_KEY = "BXutHoU0hvg=";
-	private static final String PAY_COMMAND = "pay";
 	private static final String VERSION = "1.0.0";
 
 	private static InterbankBoundary interbankBoundary = new InterbankBoundary();
-
-	public PaymentTransaction refund(CreditCard card, int amount, String contents) {
-		return null;
-	}
 	
 	private String generateData(Map<String, Object> data) {
 		return ((MyMap) data).toJSON();
 	}
 
-	public PaymentTransaction payOrder(CreditCard card, int amount, String contents) {
+	public Transaction processTransaction(CreditCard card, int amount, String contents, String type) {
 		Map<String, Object> transaction = new MyMap();
 
 		try {
@@ -42,7 +37,7 @@ public class InterbankSubsystemController {
 			// TODO Auto-generated catch block
 			throw new InvalidCardException();
 		}
-		transaction.put("command", PAY_COMMAND);
+		transaction.put("command", type);
 		transaction.put("transactionContent", contents);
 		transaction.put("amount", amount);
 		transaction.put("createdAt", Utils.getToday());
@@ -60,20 +55,18 @@ public class InterbankSubsystemController {
 			throw new UnrecognizedException();
 		}
 
-		return makePaymentTransaction(response);
+		return makeTransaction(response);
 	}
 
-	private PaymentTransaction makePaymentTransaction(MyMap response) {
+	private Transaction makeTransaction(MyMap response) {
 		if (response == null)
 			return null;
 		MyMap transcation = (MyMap) response.get("transaction");
 		CreditCard card = new CreditCard((String) transcation.get("cardCode"), (String) transcation.get("owner"),
 				Integer.parseInt((String) transcation.get("cvvCode")), (String) transcation.get("dateExpired"));
-		PaymentTransaction trans = new PaymentTransaction((String) response.get("errorCode"), card,
-				(String) transcation.get("transactionId"), (String) transcation.get("transactionContent"),
-				Integer.parseInt((String) transcation.get("amount")), (String) transcation.get("createdAt"));
+		Transaction trans = new Transaction(Integer.parseInt((String) transcation.get("amount")), (String) transcation.get("transactionContent"));
 
-		switch (trans.getErrorCode()) {
+		switch ((String)transcation.get("errorCode")) {
 		case "00":
 			break;
 		case "01":

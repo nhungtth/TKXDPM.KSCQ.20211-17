@@ -1,5 +1,12 @@
 package entity.bike;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import entity.db.EcobikeDB;
+
 public class Bike {
 	private String id;
 	private String type;
@@ -41,7 +48,7 @@ public class Bike {
 
 	// lay thong tin ve xe trong csdl
 	public Bike getBikeById(String id) {
-
+	
 	}
 
 	public List<Bike> getAllBike() {
