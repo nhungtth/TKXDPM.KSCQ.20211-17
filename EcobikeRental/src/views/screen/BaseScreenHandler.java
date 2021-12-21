@@ -24,7 +24,7 @@ public class BaseScreenHandler extends FXMLScreenHandler {
 		this.stage = new Stage();
 	}
 
-	public void setPreviousScreen(BaseScreenHandler prev) {
+    public void setPreviousScreen(BaseScreenHandler prev) {
 		this.prev = prev;
 	}
 

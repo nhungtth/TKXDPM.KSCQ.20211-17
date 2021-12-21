@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import common.exception.MediaNotAvailableException;
+import common.exception.StationNotAvailableException;
 import controller.ReturnBikeController;
 import controller.TransactionController;
 import entity.dock.Dock;
