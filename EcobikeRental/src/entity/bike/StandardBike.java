@@ -8,8 +8,9 @@ public class StandardBike extends Bike{
 	public String getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public Bike setId(String id) {
 		this.id = id;
+		return this;
 	}
 	public int getTimeLimit() {
 		return timeLimit;

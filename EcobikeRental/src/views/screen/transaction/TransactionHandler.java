@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
-import views.screen.payment.PaymentController;
-import views.screen.payment.ResultScreenHandler;
 
 public class TransactionHandler extends BaseScreenHandler implements Initializable{
 	@FXML

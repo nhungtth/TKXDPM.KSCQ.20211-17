@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class StationScreenHandler extends BaseScreenHandler implements Initializable {
+public class StationScreenHandler extends BaseScreenHandler{
     private static Logger LOGGER = Utils.getLogger(StationScreenHandler.class.getName());
 
     @FXML
@@ -54,6 +54,18 @@ public class StationScreenHandler extends BaseScreenHandler implements Initializ
     public StationScreenHandler(Stage stage, String screenPath, Station station) throws IOException {
         super(stage, screenPath);
         this.station = station;
+        try{
+            List bikes = Bike.getBikesByStationId(station.getId());
+            this.stationItems = (ArrayList)((ArrayList)  bikes).clone();
+            for(Object o: bikes) {
+                Bike bike = (Bike) o;
+                BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike);
+                this.stationItems.add(handler);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        addBikesToGrid(this.stationItems);
         setStationInfo();
     }
 
@@ -68,24 +80,6 @@ public class StationScreenHandler extends BaseScreenHandler implements Initializ
 
     public HomeController getBController() {
         return (HomeController) super.getBController();
-    }
-
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new HomeController());
-        try{
-            List bikes = getBController().getBikesByStationId(station.getId());
-            this.stationItems = (ArrayList)((ArrayList)  bikes).clone();
-            for(Object o: bikes) {
-                Bike bike = (Bike) o;
-                BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike);
-                this.stationItems.add(handler);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        addBikesToGrid(this.stationItems);
     }
 
     private void addBikesToGrid(List items) {

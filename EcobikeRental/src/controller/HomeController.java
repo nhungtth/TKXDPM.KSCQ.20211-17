@@ -24,11 +24,11 @@ public class HomeController extends BaseController{
     }
 
     public List getBikesByStationId(String stationId) throws SQLException{
-        return new Bike().getBikesByStationId(stationId);
+        return Bike.getBikesByStationId(stationId);
     }
 
     public Station getSByStationName(String name) throws SQLException{
-        return new Station().getStationByName(name);
+        return Station.getStationByName(name);
     }
 
 }

@@ -1,4 +1,4 @@
-package views.screen.payment;
+package views.screen.transaction;
 
 import java.io.IOException;
 import java.net.URL;

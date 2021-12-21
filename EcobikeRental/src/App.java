@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -22,7 +23,7 @@ public class App extends Application {
 		try {
 
 			// initialize the scene
-			StackPane root = (StackPane) FXMLLoader.load(getClass().getResource(Configs.SPLASH_SCREEN_PATH));
+			Pane root = FXMLLoader.load(getClass().getResource(Configs.SPLASH_SCREEN_PATH));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -50,7 +51,6 @@ public class App extends Application {
 				try {
 					HomeScreenHandler homeHandler = new HomeScreenHandler(primaryStage, Configs.HOME_PATH);
 					homeHandler.setScreenTitle("Home Screen");
-					homeHandler.setImage();
 					homeHandler.show();
 				} catch (IOException e1) {
 					e1.printStackTrace();

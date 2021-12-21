@@ -84,13 +84,15 @@ public class Station {
 		return this;
 	}
 
-	// search Station by name + linh
-	public Station getStationByName(String name) throws SQLException{
+	// search Station by name
+	public static Station getStationByName(String name) throws SQLException{
+		Connection con = EcobikeDB.getConnection();
 		String sql = "SELECT * FROM station WHERE name=" + name;
-		Statement stm = EcobikeDB.getConnection().createStatement();
+		Statement stm = con.createStatement();
 		ResultSet res = stm.executeQuery(sql);
+		Station station = new Station();
 		if(res.next()) {
-			return new Station()
+			station = new Station()
 					.setId(res.getString("station_id"))
 					.setName(res.getString("name"))
 					.setAddress(res.getString("address"))
@@ -98,16 +100,20 @@ public class Station {
 					.setBikeQuantity(res.getInt("bike_quantity"))
 					.setEmptyDocks(res.getInt("empty_docks"));
 		}
-		return null;
+		stm.close();
+		con.close();
+		return station;
 	}
 
 	// get station by id
 	public Station getStationById(String id) throws SQLException{
+		Connection con = EcobikeDB.getConnection();
 		String sql = "SELECT * FROM station ";
-		Statement stm = EcobikeDB.getConnection().createStatement();
+		Statement stm = con.createStatement();
 		ResultSet res = stm.executeQuery(sql);
+		Station station = new Station();
 		if(res.next()) {
-			return new Station()
+			station = new Station()
 					.setId(res.getString("station_id"))
 					.setName(res.getString("name"))
 					.setAddress(res.getString("address"))
@@ -115,12 +121,15 @@ public class Station {
 					.setBikeQuantity(res.getInt("bike_quantity"))
 					.setEmptyDocks(res.getInt("empty_docks"));
 		}
-		return null;
+		stm.close();
+		con.close();
+		return station;
 	}
 
 	// get all stations
 	public List getAllStation() throws SQLException{
-		Statement stm = EcobikeDB.getConnection().createStatement();
+		Connection con = EcobikeDB.getConnection();
+		Statement stm = con.createStatement();
 		ResultSet res = stm.executeQuery("select * from station");
 		ArrayList stations = new ArrayList<>();
 		while (res.next()) {
@@ -133,6 +142,8 @@ public class Station {
 					.setEmptyDocks(res.getInt("empty_docks"));
 			stations.add(station);
 		}
+		stm.close();
+		con.close();
 		return stations;
 	}
 

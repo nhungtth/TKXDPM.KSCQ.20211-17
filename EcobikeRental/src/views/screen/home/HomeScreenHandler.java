@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import common.exception.InvalidDeliveryInfoException;
 import controller.HomeController;
+import controller.ReturnBikeController;
 import entity.station.Station;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
+import views.screen.returnbike.ReturnBikeHandler;
 import views.screen.stationinfo.StationScreenHandler;
 
 
@@ -62,6 +64,11 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     @FXML
     private TextField search;
 
+    @FXML
+    private Button rentBtn;
+
+    @FXML
+    private Button returnBtn;
 
 
     private List homeItems;
@@ -76,7 +83,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
     @Override
     public void show() {
-//        numStationInCart.setText(String.valueOf(Cart.getCart().getListStation().size()) + " Station");
         super.show();
     }
 
@@ -117,6 +123,20 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        });
+        returnBtn.setOnMouseClicked(e ->{
+        	try {
+				ReturnBikeHandler returnBikeHandler = new ReturnBikeHandler(this.stage, Configs.RETURN_BIKE_PATH);
+				returnBikeHandler.setHomeScreenHandler(this);
+				returnBikeHandler.setBController(new ReturnBikeController());
+				returnBikeHandler.setPreviousScreen(this);
+				returnBikeHandler.setScreenTitle("Return Bike");
+				returnBikeHandler.show();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
         });
     }
 
