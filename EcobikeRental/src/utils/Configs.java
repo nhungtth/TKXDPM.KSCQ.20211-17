@@ -50,6 +50,9 @@ public class Configs {
 	public static final String RETURN_BIKE_PATH = "/views/fxml/return_bike.fxml";
 	public static final String TRANSACTION_PATH = "/views/fxml/transaction.fxml";
 	public static final String DOCK_PATH = "/views/fxml/dock.fxml";
+	public static final String BIKE_STATION = "/views/fxml/bike_station.fxml";
+	public static final String SEARCH_STATION = "/views/fxml/search_station.fxml";
+	public static final String STATION_HOME = "/views/fxml/station_home.fxml";
 
 	public static Font REGULAR_FONT = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 24);
 	
