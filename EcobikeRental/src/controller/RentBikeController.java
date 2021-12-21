@@ -1,5 +1,9 @@
 package controller;
 
-public class RentBikeController {
+import entity.db.EcobikeDB;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class RentBikeController {
 }
