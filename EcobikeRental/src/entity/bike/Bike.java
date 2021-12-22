@@ -16,6 +16,8 @@ import java.util.List;
 import entity.db.EcobikeDB;
 import entity.station.Station;
 
+import javax.swing.plaf.nimbus.State;
+
 
 public class Bike {
 	private String id;
@@ -203,6 +205,32 @@ public class Bike {
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	//get all bike available in all station
+	public static List<Bike> getAllBikeAvailable() {
+		try {
+			Connection con = EcobikeDB.getConnection();
+			String sql = "SELECT * FROM bike WHERE status = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setInt(1, 0);
+			ResultSet res = statement.executeQuery(sql);
+			ArrayList bikes = new ArrayList<>();
+			while (res.next()) {
+				Bike bike = new Bike()
+						.setId(res.getString("bike_id"))
+						.setType(res.getString("type"))
+						.setDockId(res.getString("dock_id"))
+						.setPrice(res.getInt("price"))
+						.setStatus(res.getBoolean("status"));
+				bikes.add(bike);
+			}
+			statement.close();
+			con.close();
+			return bikes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
