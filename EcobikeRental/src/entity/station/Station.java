@@ -87,7 +87,7 @@ public class Station {
 	// search Station by name
 	public static Station getStationByName(String name) throws SQLException{
 		Connection con = EcobikeDB.getConnection();
-		String sql = "SELECT * FROM station WHERE name=" + name;
+		String sql = "SELECT * FROM station WHERE name= '" + name + "'";
 		Statement stm = con.createStatement();
 		ResultSet res = stm.executeQuery(sql);
 		Station station = new Station();
@@ -108,7 +108,7 @@ public class Station {
 	// get station by id
 	public Station getStationById(String id) throws SQLException{
 		Connection con = EcobikeDB.getConnection();
-		String sql = "SELECT * FROM station ";
+		String sql = "SELECT * FROM station WHERE station_id = '" + id + "'";
 		Statement stm = con.createStatement();
 		ResultSet res = stm.executeQuery(sql);
 		Station station = new Station();
@@ -151,11 +151,8 @@ public class Station {
 	public void updateStation(Station station) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE station SET bike_quantity = ? , empty_docks = ? WHERE station_id = ?";
+			String sql = "UPDATE station SET bike_quantity = " + station.getBikeQuantity() +" , empty_docks = " + station.getEmptyDocks() +" WHERE station_id = '" + station.getId() + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setInt(1, station.getBikeQuantity());
-			statement.setInt(2, station.getEmptyDocks());
-			statement.setString(3, station.getId());
 			int rs = statement.executeUpdate(sql);
 
 			LOGGER.info("Update station " + station.getId() + ": " + station.getBikeQuantity() + "bikes, "

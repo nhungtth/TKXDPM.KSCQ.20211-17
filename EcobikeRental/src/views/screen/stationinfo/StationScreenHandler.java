@@ -56,7 +56,7 @@ public class StationScreenHandler extends BaseScreenHandler{
         this.station = station;
         try{
             List bikes = Bike.getBikesByStationId(station.getId());
-            this.stationItems = (ArrayList)((ArrayList)  bikes).clone();
+            this.stationItems = new ArrayList<>();
             for(Object o: bikes) {
                 Bike bike = (Bike) o;
                 BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike);
@@ -87,13 +87,9 @@ public class StationScreenHandler extends BaseScreenHandler{
         GridPane grid = new GridPane();
         grid.setMaxWidth(pane.getMaxWidth());
         int c = 0;
-        int r = 0;
         for(Object item: list) {
             BikeHandler dh = (BikeHandler) item;
-            if(c > 1) {
-                c = 0; r++;
-            }
-            grid.add(dh.getContent(), c, r);
+            grid.addRow(c, dh.getContent());
             c++;
         }
         pane.getChildren().add(grid);

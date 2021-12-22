@@ -2,7 +2,6 @@ package entity.bike;
 
 import java.sql.*;
 
-
 import entity.db.EcobikeDB;
 import entity.dock.Dock;
 
@@ -16,9 +15,12 @@ import java.util.List;
 import entity.db.EcobikeDB;
 import entity.station.Station;
 
+<<<<<<< HEAD
 import javax.swing.plaf.nimbus.State;
 
 
+=======
+>>>>>>> 7c56f004d8ca0835a146c5ceed5ffa3f6d60c802
 public class Bike {
 	private String id;
 	private String type;
@@ -76,9 +78,8 @@ public class Bike {
 		try {
 			Bike bike = new Bike();
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM bike WHERE bike_id = ?";
+			String sql = "SELECT * FROM bike WHERE bike_id = '" + id  + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, id);
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 
@@ -101,17 +102,13 @@ public class Bike {
 	public List getAllBike() {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM bike WHERE bike_id = ?";
+			String sql = "SELECT * FROM bike";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, id);
 			ResultSet res = statement.executeQuery(sql);
 			ArrayList bikes = new ArrayList<>();
 			while (res.next()) {
-				Bike bike = new Bike()
-						.setId(res.getString("bike_id"))
-						.setType(res.getString("type"))
-						.setDockId(res.getString("dock_id"))
-						.setPrice(res.getInt("price"))
+				Bike bike = new Bike().setId(res.getString("bike_id")).setType(res.getString("type"))
+						.setDockId(res.getString("dock_id")).setPrice(res.getInt("price"))
 						.setStatus(res.getBoolean("status"));
 				bikes.add(bike);
 			}
@@ -125,36 +122,31 @@ public class Bike {
 	}
 
 	// lay thong tin xe trong station qua id
-	public static List getBikesByStationId(String stationId) throws SQLException{
-			Connection con = EcobikeDB.getConnection();
-		   String sql = "SELECT * FROM bike b INNER JOIN dock d ON b.dock_id = d.dock_id WHERE d.station_id = ?";
-		   PreparedStatement stm = con.prepareStatement(sql);
-		   stm.setString(1, stationId);
-		   ResultSet res = stm.executeQuery(sql);
-		   ArrayList bikes = new ArrayList<>();
-		   while (res.next()) {
-		      Bike bike = new Bike()
-		            .setId(res.getString("bike_id"))
-		            .setType(res.getString("type"))
-		            .setDockId(res.getString("dock_id"))
-		            
-		            .setStatus(res.getBoolean("status"));
-		      bikes.add(bike);
-		   }
-		   stm.close();
-		   con.close();
-		   return bikes;
+	public static List getBikesByStationId(String stationId) throws SQLException {
+		Connection con = EcobikeDB.getConnection();
+		String sql = "SELECT * FROM bike b INNER JOIN dock d ON b.dock_id = d.dock_id WHERE d.station_id = '" + stationId + "'";
+		PreparedStatement stm = con.prepareStatement(sql);
+		ResultSet res = stm.executeQuery(sql);
+		ArrayList bikes = new ArrayList<>();
+		while (res.next()) {
+			Bike bike = new Bike().setId(res.getString("bike_id")).setType(res.getString("type"))
+					.setDockId(res.getString("dock_id"))
+
+					.setStatus(res.getBoolean("status"));
+			bikes.add(bike);
 		}
+		stm.close();
+		con.close();
+		return bikes;
+	}
 
 	// lay thong tin xe trong station qua id
 	public static List<Bike> getBikesAvailableByStationName(String name) {
 		List<Bike> listBikes = new ArrayList<>();
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM bike b INNER JOIN dock d ON b.dock_id = d.dock_id JOIN station s ON s.station_id = d.dock_id WHERE b.status = ? AND s.name = ?";
+			String sql = "SELECT * FROM bike b INNER JOIN dock d ON b.dock_id = d.dock_id JOIN station s ON s.station_id = d.dock_id WHERE b.status = " + true + " AND s.name = '" + name + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setBoolean(1, true);
-			statement.setString(2, name);
 			ResultSet rs = statement.executeQuery(sql);
 
 			while (rs.next()) {
@@ -175,14 +167,12 @@ public class Bike {
 		return listBikes;
 	}
 
-	//update bike status - Lan
+	// update bike status - Lan
 	public void updateBikeStatus(Bike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE bike SET status = ? WHERE bike_id = ?";
+			String sql = "UPDATE bike SET status = " + bike.isStatus() +" WHERE bike_id = '" + bike.getId() + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setBoolean(1, bike.isStatus());
-			statement.setString(2, bike.getId());
 			statement.executeUpdate(sql);
 			statement.close();
 			con.close();
@@ -194,12 +184,12 @@ public class Bike {
 	public void saveRentBike(Bike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "INSERT INTO 'bike_rent' (`bike_id`, `rent_time`, `return_time`, `rent_dock`, `return_dock`) VALUES ('?', '?', null, '?', null);";
+			String sql = "INSERT INTO bike_rent (`bike_id`, `rent_time`, `return_time`, `rent_dock`, `return_dock`) VALUES ('?', '?', null, '?', null);";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, id);
+			statement.setString(1, bike.getId());
 			Timestamp rentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			statement.setTimestamp(2, rentTime);
-			statement.setString(3, dockId);
+			statement.setString(3, bike.getDockId());
 			statement.executeUpdate(sql);
 			statement.close();
 			con.close();

@@ -72,7 +72,7 @@
                               </Button>
                            </children>
                         </Pane>
-                        <AnchorPane id="pane" layoutX="33.0" layoutY="99.0" prefHeight="219.0" prefWidth="701.0" />
+                        <AnchorPane id="pane" fx:id="pane" layoutX="33.0" layoutY="99.0" prefHeight="219.0" prefWidth="701.0" />
                      </children>
                   </AnchorPane>
                </items>
