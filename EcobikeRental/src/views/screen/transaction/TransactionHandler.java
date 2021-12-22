@@ -23,7 +23,7 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 
-public class TransactionHandler extends BaseScreenHandler implements Initializable{
+public class TransactionHandler extends BaseScreenHandler{
 	@FXML
 	private TextField cardNumber;
 	
@@ -74,6 +74,7 @@ public class TransactionHandler extends BaseScreenHandler implements Initializab
 		super(stage, screenPath);
 		this.dock = dock;
 		this.bike = BaseController.getRentBike();
+		setScreenInfo();
 	}
 	
 	// for rent transaction
@@ -86,9 +87,8 @@ public class TransactionHandler extends BaseScreenHandler implements Initializab
 		return (TransactionController) super.getBController();
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		username.setText(BaseController.getUser().getName());
+	public void setScreenInfo() {
+		//username.setText(BaseController.getUser().getName());
 		bikeId.setText(bike.getId());
 		if(dock != null) {
 			dockId.setText(dock.getId());

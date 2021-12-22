@@ -154,7 +154,8 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     void requestToSearch(MouseEvent event) throws IOException, InterruptedException, SQLException {
         String key = search.getText();
         Station station_rs = getBController().getSByStationName(key);
-
+        if(station_rs == null)
+        	return;
         SearchStationScreenHandler searchStationScreen;
         searchStationScreen = new SearchStationScreenHandler(this.stage, Configs.SEARCH_STATION, station_rs);
         searchStationScreen.setHomeScreenHandler(this);

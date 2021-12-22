@@ -65,9 +65,8 @@ public class Dock {
 		List<Dock> listDock = new ArrayList<>();
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM dock d INNER JOIN station s ON d.station_id = s.station_id WHERE d.status = ?";
+			String sql = "SELECT * FROM dock d INNER JOIN station s ON d.station_id = s.station_id WHERE d.status = " + true;
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
-			preparedStatement.setBoolean(1, true);
 			ResultSet rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
@@ -91,10 +90,8 @@ public class Dock {
 	public void updateDockStatus(Dock dock) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE dock SET status = ? WHERE dock_id = ?";
+			String sql = "UPDATE dock SET status = " + dock.isStatus() + " WHERE dock_id = '" + dock.getId() + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setBoolean(1, dock.isStatus());
-			statement.setString(2, dock.getId());
 			int rs = statement.executeUpdate(sql);
 			if(rs == 1) {
 				LOGGER.info("Update dock " + dock.getId() + "to " + dock.isStatus());
@@ -112,9 +109,8 @@ public class Dock {
 		boolean status = false;
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT status FROM dock WHERE dock_id = ?";
+			String sql = "SELECT status FROM dock WHERE dock_id = '" + id + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, id);
 			ResultSet rs = statement.executeQuery(sql);
 			if(rs.next()) {
 				status = rs.getBoolean("status");

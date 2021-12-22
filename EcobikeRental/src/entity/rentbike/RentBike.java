@@ -88,11 +88,8 @@ public class RentBike {
 	public void updateRentBike(RentBike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE bike_rent SET return_dock = ? , return_time = ? WHERE bike_id = ?";
+			String sql = "UPDATE bike_rent SET return_dock = " + bike.getReturnDock() + " , return_time = " + Utils.getToday() + " WHERE bike_id = '" + bike.getId() + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, bike.getReturnDock());
-			statement.setTimestamp(2, Utils.getToday());
-			statement.setString(3, bike.getId());
 			int rs = statement.executeUpdate(sql);
 			if (rs == 1) {
 				LOGGER.info("Return bike " + bike.getId() + "to " + bike.getReturnDock());
