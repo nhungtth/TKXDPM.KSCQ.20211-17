@@ -7,6 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -43,17 +44,17 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="898.0" style="-fx-background-color: #fff; -fx-border-color: #4f91cf;">
                <children>
-                  <Button layoutX="804.0" layoutY="368.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Cancel" textFill="WHITE">
+                  <Button fx:id="cancelBtn" layoutX="804.0" layoutY="368.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Cancel" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Label layoutX="118.0" layoutY="62.0" prefHeight="32.0" prefWidth="254.0" text="ID: B01">
+                  <Label layoutX="118.0" layoutY="63.0" prefHeight="32.0" prefWidth="53.0" text="ID: ">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="119.0" layoutY="102.0" text="Bike Type: Standard e-bike ">
+                  <Label layoutX="119.0" layoutY="102.0" text="Type ">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
@@ -63,36 +64,51 @@
                         <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="119.0" layoutY="135.0" prefHeight="32.0" prefWidth="254.0" text="Battery Percentage: 20">
+                  <Label layoutX="119.0" layoutY="135.0" prefHeight="32.0" prefWidth="92.0" text="Station:">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="119.0" layoutY="171.0" prefHeight="32.0" prefWidth="127.0" text="Dock: D01">
+                  <Label layoutX="118.0" layoutY="213.0" prefHeight="32.0" prefWidth="127.0" text="Dock: ">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="119.0" layoutY="208.0" prefHeight="32.0" prefWidth="254.0" text="Time Limit: 20 minutes">
-                     <font>
-                        <Font name="Segoe UI" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="118.0" layoutY="245.0" prefHeight="32.0" prefWidth="254.0" text="Deposit: 40$">
-                     <font>
-                        <Font name="Segoe UI" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="257.0" layoutY="171.0" prefHeight="32.0" prefWidth="254.0" text="Station: ST2">
-                     <font>
-                        <Font name="Segoe UI" size="16.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="193.0" layoutY="368.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Rent" textFill="WHITE">
+                  <Button fx:id="rentBtn" layoutX="193.0" layoutY="368.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Rent" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Button>
+                  <Label layoutX="118.0" layoutY="176.0" prefHeight="32.0" prefWidth="127.0" text="Address:">
+                     <font>
+                        <Font name="Segoe UI" size="16.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="id" layoutX="185.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.75698852539062">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="type" layoutX="193.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.75698852539062">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="address" layoutX="211.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.75698852539062">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="dock" layoutX="203.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.75698852539062">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="station" layoutX="211.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="149.75698852539062">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </items>

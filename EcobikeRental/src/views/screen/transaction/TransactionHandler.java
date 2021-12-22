@@ -81,6 +81,7 @@ public class TransactionHandler extends BaseScreenHandler{
 	public TransactionHandler(Stage stage, String screenPath, RentBike bike) throws SQLException, IOException {
 		super(stage, screenPath);
 		this.bike = bike;
+		setScreenInfo();
 	}
 	
 	public TransactionController getBController() {

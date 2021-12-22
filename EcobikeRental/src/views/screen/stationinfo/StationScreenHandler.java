@@ -1,6 +1,7 @@
 package views.screen.stationinfo;
 
 import controller.HomeController;
+import controller.TransactionController;
 import entity.bike.Bike;
 import entity.dock.Dock;
 import entity.station.Station;
@@ -14,6 +15,7 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.returnbike.DockHandler;
+import views.screen.transaction.TransactionHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +61,7 @@ public class StationScreenHandler extends BaseScreenHandler{
             this.stationItems = new ArrayList<>();
             for(Object o: bikes) {
                 Bike bike = (Bike) o;
-                BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike);
+                BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike, this);
                 this.stationItems.add(handler);
             }
         } catch (Exception e) {
@@ -67,6 +69,19 @@ public class StationScreenHandler extends BaseScreenHandler{
         }
         addBikesToGrid(this.stationItems);
         setStationInfo();
+    }
+    
+    private void addBikesToGrid(List items) {
+        ArrayList list = (ArrayList)((ArrayList) items).clone();
+        GridPane grid = new GridPane();
+        grid.setMaxWidth(pane.getMaxWidth());
+        int c = 0;
+        for(Object item: list) {
+            BikeHandler dh = (BikeHandler) item;
+            grid.addRow(c, dh.getContent());
+            c++;
+        }
+        pane.getChildren().add(grid);
     }
 
     private void setStationInfo() {
@@ -81,17 +96,12 @@ public class StationScreenHandler extends BaseScreenHandler{
     public HomeController getBController() {
         return (HomeController) super.getBController();
     }
+    
+    public void createBikeInfoHandler(Bike bike) throws SQLException, IOException {
+		BikeInfoHandler bikeInfoHandler = new BikeInfoHandler(this.stage, Configs.BIKE_INFO_PATH, bike, this.station);
+		bikeInfoHandler.setBController(new HomeController());
+		bikeInfoHandler.setHomeScreenHandler(homeScreenHandler);
+		bikeInfoHandler.show();
+	}
 
-    private void addBikesToGrid(List items) {
-        ArrayList list = (ArrayList)((ArrayList) items).clone();
-        GridPane grid = new GridPane();
-        grid.setMaxWidth(pane.getMaxWidth());
-        int c = 0;
-        for(Object item: list) {
-            BikeHandler dh = (BikeHandler) item;
-            grid.addRow(c, dh.getContent());
-            c++;
-        }
-        pane.getChildren().add(grid);
-    }
 }

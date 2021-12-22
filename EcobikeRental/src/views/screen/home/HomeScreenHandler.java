@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import common.exception.InvalidDeliveryInfoException;
 import controller.HomeController;
+import controller.RentBikeController;
 import controller.ReturnBikeController;
 import entity.station.Station;
 import javafx.fxml.FXML;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
+import views.screen.rentbike.RentBikeHandler;
 import views.screen.returnbike.ReturnBikeHandler;
 import views.screen.stationinfo.StationScreenHandler;
 
@@ -138,8 +140,24 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 			}
         	
         });
+        
+        rentBtn.setOnMouseClicked(e->{
+        	try {
+				RentBikeHandler rentBikeHandler = new RentBikeHandler(this.stage, Configs.RENT_BIKE_PATH);
+				rentBikeHandler.setHomeScreenHandler(this);
+				rentBikeHandler.setBController(new RentBikeController());
+				rentBikeHandler.setScreenTitle("Rent Bike");
+				rentBikeHandler.show();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
     }
-
+    
+    public void createRentBikeHandler() {
+    	
+    }
     public void getInfo(Station station) throws IOException{
         StationScreenHandler stationScreen;
         stationScreen = new StationScreenHandler(this.stage, Configs.STATION_INFO_PATH, station);

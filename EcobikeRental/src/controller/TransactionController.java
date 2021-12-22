@@ -14,10 +14,10 @@ import subsystem.InterbankSubsystem;
 
 
 /**
- * This {@code PaymentController} class control the flow of the payment process
- * in our AIMS Software.
+ * This {@code TransactionController} class control the flow of the payment process
+ * in our EcobikeRental Software.
  * 
- * @author hieud
+ * @author NhungTTH
  *
  */
 public class TransactionController extends BaseController {

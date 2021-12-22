@@ -15,12 +15,6 @@ import java.util.List;
 import entity.db.EcobikeDB;
 import entity.station.Station;
 
-<<<<<<< HEAD
-import javax.swing.plaf.nimbus.State;
-
-
-=======
->>>>>>> 7c56f004d8ca0835a146c5ceed5ffa3f6d60c802
 public class Bike {
 	private String id;
 	private String type;
@@ -201,9 +195,8 @@ public class Bike {
 	public static List<Bike> getAllBikeAvailable() {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM bike WHERE status = ?";
+			String sql = "SELECT * FROM bike WHERE status = " + true;
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setInt(1, 0);
 			ResultSet res = statement.executeQuery(sql);
 			ArrayList bikes = new ArrayList<>();
 			while (res.next()) {

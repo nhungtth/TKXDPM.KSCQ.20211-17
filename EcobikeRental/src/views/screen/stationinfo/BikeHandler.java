@@ -10,6 +10,7 @@ import views.screen.FXMLScreenHandler;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class BikeHandler extends FXMLScreenHandler {
@@ -17,14 +18,25 @@ public class BikeHandler extends FXMLScreenHandler {
     private Label name;
 
     @FXML
-    private Button infoButton;
+    private Button infoBtn;
 
     private static Logger LOGGER = Utils.getLogger(BikeHandler.class.getName());
     private Bike bike;
+    private StationScreenHandler stationScreenHandler;
 
-    public BikeHandler(String screenPath, Bike bike) throws IOException {
+    public BikeHandler(String screenPath, Bike bike, StationScreenHandler stationScreenHandler) throws IOException {
         super(screenPath);
         this.bike = bike;
+        this.stationScreenHandler = stationScreenHandler;
         name.setText(bike.getId());
+        
+        infoBtn.setOnMouseClicked(e->{
+        	try {
+				stationScreenHandler.createBikeInfoHandler(this.bike);
+			} catch (SQLException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
     }
 }

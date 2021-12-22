@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * This class controls the flow of events in homescreen
- * @author nguyenlm
+ * @author LinhDH
  */
 public class HomeController extends BaseController{
 
@@ -23,10 +23,22 @@ public class HomeController extends BaseController{
         return new Station().getAllStation();
     }
 
+    /**
+     * this method gets all bike in station with stationId
+     * @param stationId
+     * @return List[Bike]
+     * @throws SQLException
+     */
     public List getBikesByStationId(String stationId) throws SQLException{
         return Bike.getBikesByStationId(stationId);
     }
 
+    /**
+     * this method gets a Station with name
+     * @param name
+     * @return Station
+     * @throws SQLException
+     */
     public Station getSByStationName(String name) throws SQLException{
         return Station.getStationByName(name);
     }
