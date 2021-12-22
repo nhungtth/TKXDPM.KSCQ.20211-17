@@ -1,4 +1,16 @@
 # TKXDPM.KSCQ.20211-17
+ # LAB 04 - CODING AND UNIT TEST
+## Tasks
+ 1. Coding
+ 2. Unit Test
+ 3. Refractoring
+
+## Contributors
+* Linh: UC View Bike/Station Info
+* Lan: UC Rent Bike
+* Nhung: UC Return Bike
+
+#
  # LAB 03 - CLASS DESIGN AND DATA MODELING
 ## Tasks
  1. Class Design
