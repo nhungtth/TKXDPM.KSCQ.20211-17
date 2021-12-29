@@ -114,40 +114,35 @@ public class API {
 	 * @throws IOException
 	 */
 	public static String post(String url, String data
-//			, String token
-	) throws IOException {
-		// phan 1: setup
-		LOGGER.info("Request URL: " + url + "\n");
-		URL line_api_url = new URL(url);
-		HttpURLConnection conn = (HttpURLConnection) line_api_url.openConnection();
-		conn.setDoInput(true);
-		conn.setDoOutput(true);
-		conn.setRequestMethod("POST");
-		conn.setRequestProperty("Content-Type", "application/json");
-		
-		// phan 2: gui du lieu
-		Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-		writer.write(data);
-		writer.close();
-		
-		// phan 3: doc du lieu gui ve tu server
-		String inputLine;
-		BufferedReader in;
-
-		if(conn.getResponseCode() / 100 == 2) {
-			in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		} else {
-			in = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-		}
-		
-		StringBuilder response = new StringBuilder(); 
-		while ((inputLine = in.readLine()) != null)
-			System.out.println(inputLine);
-		response.append(inputLine + "\n");
-		in.close();
-		LOGGER.info("Respone Info: " + response.substring(0, response.length() - 1).toString());
-		return response.substring(0, response.length() - 1).toString();
-	}
+//	       , String token
+	   ) throws IOException {
+	      allowMethods("PATCH");
+	      URL line_api_url = new URL(url);
+	      String payload = data;
+	      LOGGER.info("Request Info:\nRequest URL: " + url + "\n" + "Payload Data: " + payload + "\n");
+	      HttpURLConnection conn = (HttpURLConnection) line_api_url.openConnection();
+	      conn.setDoInput(true);
+	      conn.setDoOutput(true);
+	      conn.setRequestMethod("PATCH");
+	      conn.setRequestProperty("Content-Type", "application/json");
+//	    conn.setRequestProperty("Authorization", "Bearer " + token);
+	      Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	      writer.write(payload);
+	      writer.close();
+	      BufferedReader in;
+	      String inputLine;
+	      if (conn.getResponseCode() / 100 == 2) {
+	         in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	      } else {
+	         in = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	      }
+	      StringBuilder response = new StringBuilder();
+	      while ((inputLine = in.readLine()) != null)
+	         response.append(inputLine);
+	      in.close();
+	      LOGGER.info("Respone Info: " + response.toString());
+	      return response.toString();
+	   }
 
 	/**
 	 * Phuong thuc cho phep goi cac loai giao thuc API khac nhau nhu PUT, PATCH ... (chi hoat dong voi Java 11)

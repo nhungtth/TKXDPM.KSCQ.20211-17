@@ -115,7 +115,7 @@ public class TransactionHandler extends BaseScreenHandler{
 			bike.setReturnDock(dock.getId());
 			bike.setReturnDate(Utils.getToday());
 			
-			long t = (bike.getReturnDate().getTime() - bike.getRentDate().getTime())/6000;
+			long t = (bike.getReturnDate().getTime() - bike.getRentDate().getTime())/6000000;
 			time.setText(String.valueOf(t));
 			
 			int f = new ReturnBikeController().calculateFees(t);
@@ -135,7 +135,7 @@ public class TransactionHandler extends BaseScreenHandler{
 			try {
 				confirmToPay();
 			} catch (Exception exp) {
-				System.out.println(exp.getStackTrace());
+				exp.printStackTrace();
 			}
 		});
 	}
@@ -185,7 +185,7 @@ public class TransactionHandler extends BaseScreenHandler{
 		if(response.get("RESULT") == "TRANSACTION FAILED!")
 			return;
 		Transaction transaction = new Transaction(type, bike, amount, username.getText(), contents, purpose);
-		Transaction.saveTransaction(transaction);
+		//Transaction.saveTransaction(transaction);
 	}
 
 	@FXML
