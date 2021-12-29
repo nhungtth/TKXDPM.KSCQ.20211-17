@@ -18,7 +18,7 @@
          <items>
             <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="124.0" prefWidth="776.0" style="-fx-background-color: #dcdfe1; -fx-border-color: #35bf26;">
                <children>
-                  <ImageView fitHeight="71.0" fitWidth="122.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="14.0">
+                  <ImageView fitHeight="71.0" fitWidth="122.0" layoutX="23.0" layoutY="14.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="14.0">
                      <image>
                         <Image url="@../../../assets/images/Logo.png" />
                      </image>
@@ -47,7 +47,7 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="898.0" style="-fx-background-color: #fff; -fx-border-color: #4f91cf;">
                <children>
-                  <Button layoutX="804.0" layoutY="368.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Cancel" textFill="WHITE">
+                  <Button layoutX="804.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#goHome" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #e20909;" text="Cancel" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>

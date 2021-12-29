@@ -23,14 +23,13 @@ public class Transaction {
 	private String content;
 	private String purpose;
 
-	public Transaction(String type, RentBike bike, int amount, String username, String content, String purpose) {
+	public Transaction(String type, RentBike bike, int amount, String username, String content) {
 		super();
 		this.type = type;
 		this.bike = bike;
 		this.amount = amount;
 		this.username = username;
 		this.content = content;
-		this.purpose = purpose;
 	}
 
 	public Transaction(int amount, String content) {

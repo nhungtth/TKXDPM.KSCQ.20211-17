@@ -12,6 +12,7 @@ import entity.transaction.CreditCard;
 import entity.transaction.Transaction;
 import subsystem.InterbankInterface;
 import subsystem.InterbankSubsystem;
+import utils.Configs;
 
 
 /**
@@ -81,7 +82,7 @@ public class TransactionController extends BaseController {
 	 * @return {@link java.util.Map Map} represent the transaction result with a
 	 *         message.
 	 */
-	public Map<String, String> processTransaction(int amount, String contents, String cardNumber, String cardHolderName,
+	public Map<String, String> processTransaction(int deposit, int fees, String purpose, String contents, String cardNumber, String cardHolderName,
 			String expirationDate, String securityCode, String type) {
 		Map<String, String> result = new Hashtable<String, String>();
 		result.put("RESULT", "TRANSACTION FAILED!");
@@ -89,8 +90,20 @@ public class TransactionController extends BaseController {
 			this.card = new CreditCard(cardNumber, cardHolderName, Integer.parseInt(securityCode), getExpirationDate(expirationDate));
 
 			this.interbank = new InterbankSubsystem();
-			Transaction transaction = interbank.processTransaction(card, amount, contents, type);
-
+			int amount = 0;
+			if(purpose == Configs.RETURN) { 
+				// refund
+				amount = deposit;
+				Transaction refund = interbank.processTransaction(card, amount, contents, Configs.REFUND);
+				// pay fees
+				amount = fees;
+				Transaction pay = interbank.processTransaction(card, amount, contents, Configs.PAY);
+			} else {
+				// pay fees for rent a bike
+				amount = fees;
+				Transaction transaction = interbank.processTransaction(card, amount, contents, Configs.PAY);
+			}
+	
 			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
 			result.put("MESSAGE", "You have succesffully paid the transaction!");
 		} catch (PaymentException | UnrecognizedException ex) {
@@ -102,7 +115,7 @@ public class TransactionController extends BaseController {
 	
 	public boolean validateTransactionInfo(HashMap<String, String> message) {
 		for (Map.Entry<String, String> pair: message.entrySet()) {
-            if(pair.getValue() == null)
+            if(pair.getValue() == "")
             	return false;
         }
 		return true;

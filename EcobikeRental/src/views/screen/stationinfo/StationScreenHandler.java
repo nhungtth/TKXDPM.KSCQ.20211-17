@@ -8,6 +8,7 @@ import entity.station.Station;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -104,4 +105,8 @@ public class StationScreenHandler extends BaseScreenHandler{
 		bikeInfoHandler.show();
 	}
 
+    @FXML
+	public void goHome(MouseEvent event) {
+		homeScreenHandler.show();
+	}
 }

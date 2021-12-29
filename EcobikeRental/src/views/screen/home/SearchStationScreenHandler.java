@@ -3,6 +3,7 @@ package views.screen.home;
 import controller.HomeController;
 import entity.station.Station;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.Configs;
@@ -34,4 +35,8 @@ public class SearchStationScreenHandler extends BaseScreenHandler {
         pane.getChildren().add(stationHandlder.getContent());
     }
     
+    @FXML
+	public void goHome(MouseEvent event) {
+		homeScreenHandler.show();
+	}
 }

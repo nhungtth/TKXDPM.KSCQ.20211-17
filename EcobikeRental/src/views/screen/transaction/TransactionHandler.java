@@ -156,20 +156,10 @@ public class TransactionHandler extends BaseScreenHandler{
 		}
 		
 		Map<String, String> response;
-		int amount;
-		if(type.getText() == Configs.RETURN) {
-			// refund deposit
-			amount  = bike.getDeposit();
-			response = ctrl.processTransaction(amount, contents, cardNumber.getText(), holderName.getText(),
-					expirationDate.getText(), securityCode.getText(), Configs.REFUND);	
-			createTransaction(Configs.REFUND, amount, contents, Configs.RETURN, response);
-		}
 		
-		// pay fees
-		amount = Integer.parseInt(fees.getText());
-		response = ctrl.processTransaction(amount, contents, cardNumber.getText(), holderName.getText(),
+		response = ctrl.processTransaction(bike.getDeposit(), Integer.valueOf(fees.getText()), type.getText(), contents, cardNumber.getText(), holderName.getText(),
 				expirationDate.getText(), securityCode.getText(), Configs.PAY);	
-		createTransaction(Configs.PAY, amount, contents, type.getText(), response);
+		createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
 		displayResult(response.get("RESULT"), response.get("MESSAGE"));
 	}
 
@@ -181,10 +171,10 @@ public class TransactionHandler extends BaseScreenHandler{
 		}
 	}
 	
-	private void createTransaction(String type, int amount, String contents, String purpose, Map<String, String> response) {
+	private void createTransaction(String type, int amount, String contents, Map<String, String> response) {
 		if(response.get("RESULT") == "TRANSACTION FAILED!")
 			return;
-		Transaction transaction = new Transaction(type, bike, amount, username.getText(), contents, purpose);
+		Transaction transaction = new Transaction(type, bike, amount, username.getText(), contents);
 		//Transaction.saveTransaction(transaction);
 	}
 

@@ -168,7 +168,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
     void requestToSearch(MouseEvent event) throws IOException, InterruptedException, SQLException {
         String key = search.getText();
         Station station_rs = getBController().getSByStationName(key);
-        if(station_rs == null) {
+        if(station_rs.getId() == null) {
         	PopupScreen.error("No results.");
         	return;
         }
