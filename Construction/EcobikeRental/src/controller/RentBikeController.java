@@ -10,7 +10,6 @@ import java.util.List;
 
 import entity.bike.Bike;
 import entity.station.Station;
-import utils.Configs;
 
 /**
  * this class controls the flow of events in rent bike usecase
@@ -54,21 +53,21 @@ public class RentBikeController extends BaseController {
 	}
 
 	/**
-	 * this method calculate deposit when rent a bike
-	 * @param id: id of bike user want to rent
-	 * @return amount to deposit
+	 * this method updates status of bike in DB
+	 * 
+	 * @param bike
 	 */
-	public int calculateDeposit(String id) {
-		switch (id) {
-		case Configs.TWIN:
-			return 550000;
-		case Configs.EBIKE:
-			return 700000;
-		case Configs.STANDARD:
-			return 400000;
-		default:
-			return 0;
-		}
+	public void updateBikeStatus(Bike bike) {
+		bike.updateBikeStatus(bike);
+	}
+
+	/**
+	 * this method save a new bike which be rented
+	 * 
+	 * @param bike
+	 */
+	public void saveRentBike(Bike bike) {
+		new RentBike().saveRentBike(bike);
 	}
 
 }

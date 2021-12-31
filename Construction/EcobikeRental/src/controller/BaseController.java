@@ -1,6 +1,5 @@
 package controller;
 
-import entity.bike.Bike;
 import entity.rentbike.RentBike;
 import entity.user.User;
 import utils.Configs;
@@ -27,25 +26,7 @@ public class BaseController {
 	public static User getUser() {
 		return User.getCurrentUser();
 	}
-	
-	/**
-	 * this method updates status of bike in DB
-	 * 
-	 * @param bike
-	 */
-	public void updateBikeStatus(Bike bike) {
-		bike.updateBikeStatus(bike);
-	}
-	
-	/**
-	 * this method save a new bike which be rented
-	 * 
-	 * @param bike
-	 */
-	public void saveRentBike(Bike bike) {
-		new RentBike().saveRentBike(bike);
-	}
-	
+
 	/**
 	 * this method calculate deposit when rent a bike
 	 * @param id: id of bike user want to rent
