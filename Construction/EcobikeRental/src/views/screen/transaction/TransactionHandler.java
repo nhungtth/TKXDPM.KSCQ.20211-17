@@ -166,8 +166,11 @@ public class TransactionHandler extends BaseScreenHandler{
 	public void displayResult(String result, String message) throws IOException {
 		if(result == "TRANSACTION FAILED!") {
 			PopupScreen.error(message);
+			bike.setReturnDate(null);
+			bike.setReturnDock(null);
 		} else {
 			PopupScreen.success(message);
+			new RentBike().updateRentBike(bike);
 		}
 	}
 	
