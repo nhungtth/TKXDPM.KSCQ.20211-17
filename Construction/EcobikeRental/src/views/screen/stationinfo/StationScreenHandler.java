@@ -4,6 +4,7 @@ import controller.HomeController;
 import controller.TransactionController;
 import entity.bike.Bike;
 import entity.dock.Dock;
+import entity.rentbike.RentBike;
 import entity.station.Station;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,6 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.returnbike.DockHandler;
-import views.screen.transaction.TransactionHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +49,9 @@ public class StationScreenHandler extends BaseScreenHandler{
 
     @FXML
     private AnchorPane pane;
-
+    
+    @FXML
+    private Label bikeLabel;
 
     private  Station station;
     private List stationItems;
@@ -92,6 +94,10 @@ public class StationScreenHandler extends BaseScreenHandler{
         area.setText(String.valueOf(station.getArea()));
         bike.setText(String.valueOf(station.getBikeQuantity()));
         dock.setText(String.valueOf(station.getEmptyDocks()));
+        RentBike rb = getBController().getRentBike();
+		if ( rb != null && rb.getId() != null) {
+			bikeLabel.setText(rb.getId());
+		}
     }
 
     public HomeController getBController() {

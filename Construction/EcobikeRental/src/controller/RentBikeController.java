@@ -66,7 +66,7 @@ public class RentBikeController extends BaseController {
 	 * 
 	 * @param bike
 	 */
-	public void saveRentBike(Bike bike) {
+	public void saveRentBike(RentBike bike) {
 		new RentBike().saveRentBike(bike);
 	}
 

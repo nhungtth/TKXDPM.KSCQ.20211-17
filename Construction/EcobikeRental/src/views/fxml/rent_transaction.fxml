@@ -168,11 +168,6 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="time" layoutX="243.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="88.95703125">
-                     <font>
-                        <Font name="Segoe UI Bold" size="14.0" />
-                     </font>
-                  </Text>
                   <Text fx:id="fees" layoutX="207.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="88.95703125">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />

@@ -36,150 +36,154 @@ import views.screen.returnbike.DockHandler;
 import views.screen.returnbike.ReturnBikeHandler;
 import views.screen.stationinfo.StationScreenHandler;
 
+public class HomeScreenHandler extends BaseScreenHandler implements Initializable {
 
-public class HomeScreenHandler extends BaseScreenHandler implements Initializable{
+	public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
 
-    public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
+	@FXML
+	private TextField search;
 
-    @FXML
-    private TextField search;
+	@FXML
+	private Button rentBtn;
 
-    @FXML
-    private Button rentBtn;
+	@FXML
+	private Button returnBtn;
 
-    @FXML
-    private Button returnBtn;
-    
-    @FXML
-    private GridPane grid;
-    
-    @FXML
-    private Label bikeLabel;
+	@FXML
+	private GridPane grid;
 
-    private List homeItems;
-    private RentBike bike;
+	@FXML
+	private Label bikeLabel;
 
-    public HomeScreenHandler(Stage stage, String screenPath) throws IOException{
-        super(stage, screenPath);
-    }
+	private List homeItems;
+	private RentBike bike;
 
-    public HomeController getBController() {
-        return (HomeController) super.getBController();
-    }
+	public HomeScreenHandler(Stage stage, String screenPath) throws IOException {
+		super(stage, screenPath);
+		this.homeScreenHandler = this;
+		if (this.bike != null && this.bike.getId() != null)
+			bikeLabel.setText("Bike: " + bike.getId());
+		addListener();
+	}
 
-    @Override
-    public void show() {
-        super.show();
-    }
+	public HomeController getBController() {
+		return (HomeController) super.getBController();
+	}
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        setBController(new HomeController());
-        this.bike = getBController().getRentBike();
-        try{
-            List stations = getBController().getAllStation();
-            this.homeItems = new ArrayList<>();
-			for(Object o: stations) {
+	@Override
+	public void show() {
+		super.show();
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		setBController(new HomeController());
+		try {
+			List stations = getBController().getAllStation();
+			this.homeItems = new ArrayList<>();
+			for (Object o : stations) {
 				Station station = (Station) o;
 				StationHandlder handler = new StationHandlder(Configs.STATION_HOME, station, this);
 				this.homeItems.add(handler);
 			}
-        }catch (SQLException | IOException e){
-            LOGGER.info("Errors occured: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        addStationToGrid(this.homeItems);
-        addListener();
-    }
-    
-    private void addStationToGrid(List items) {
-    	ArrayList list = (ArrayList)((ArrayList) items).clone();
-		 int c = 0;
-		 for(Object item: list) {
-			 StationHandlder sh = (StationHandlder) item;
-			 grid.addRow(c, sh.getContent());
-			 c++;
-		 }
+		} catch (SQLException | IOException e) {
+			LOGGER.info("Errors occured: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		addStationToGrid(this.homeItems);
+
 	}
-    
-    // set event listener for button
-    public void addListener() {
-    	if(this.bike != null) {
-    		rentBtn.setOnMouseClicked(e->{
-    			try {
+
+	private void addStationToGrid(List items) {
+		ArrayList list = (ArrayList) ((ArrayList) items).clone();
+		int c = 0;
+		for (Object item : list) {
+			StationHandlder sh = (StationHandlder) item;
+			grid.addRow(c, sh.getContent());
+			c++;
+		}
+	}
+
+	// set event listener for button
+	public void addListener() {
+		this.bike = getBController().getRentBike();
+
+		rentBtn.setOnMouseClicked(e -> {
+			if (this.bike != null && this.bike.getId() != null) {
+				try {
 					PopupScreen.error("You must return curent bike before renting one.");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-    		});
-        	returnBtn.setOnMouseClicked(e ->{
-        		bikeLabel.setText("Bike: " + bike.getId());
-            	try {
-    				ReturnBikeHandler returnBikeHandler = new ReturnBikeHandler(this.stage, Configs.RETURN_BIKE_PATH);
-    				returnBikeHandler.setHomeScreenHandler(this);
-    				returnBikeHandler.setBController(new ReturnBikeController());
-    				returnBikeHandler.setPreviousScreen(this);
-    				returnBikeHandler.setScreenTitle("Return Bike");
-    				returnBikeHandler.show();
-    			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			}
-            	
-            });
-        } else {
-        	returnBtn.setOnMouseClicked(e->{
-        		try {
+			} else {
+				RentBikeHandler rentBikeHandler;
+				try {
+					rentBikeHandler = new RentBikeHandler(this.stage, Configs.RENT_BIKE_PATH);
+					rentBikeHandler.setHomeScreenHandler(this);
+					rentBikeHandler.setBController(new RentBikeController());
+					rentBikeHandler.setScreenTitle("Rent Bike");
+					rentBikeHandler.show();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		returnBtn.setOnMouseClicked(e -> {
+			if (this.bike != null && this.bike.getId() != null) {
+				
+				try {
+					ReturnBikeHandler returnBikeHandler = new ReturnBikeHandler(this.stage, Configs.RETURN_BIKE_PATH);
+					returnBikeHandler.setHomeScreenHandler(this);
+					returnBikeHandler.setBController(new ReturnBikeController());
+					returnBikeHandler.setPreviousScreen(this);
+					returnBikeHandler.setScreenTitle("Return Bike");
+					returnBikeHandler.show();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				try {
 					PopupScreen.error("No bike to return.");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-        	});
-            rentBtn.setOnMouseClicked(e->{
-            	try {
-    				RentBikeHandler rentBikeHandler = new RentBikeHandler(this.stage, Configs.RENT_BIKE_PATH);
-    				rentBikeHandler.setHomeScreenHandler(this);
-    				rentBikeHandler.setBController(new RentBikeController());
-    				rentBikeHandler.setScreenTitle("Rent Bike");
-    				rentBikeHandler.show();
-    			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			}
-            });
-        }
-        
-    }
+			}
 
-	public void getInfo(Station station) throws IOException, SQLException{
-        StationScreenHandler stationScreen;
-        stationScreen = new StationScreenHandler(this.stage, Configs.STATION_INFO_PATH, station);
-        stationScreen.setHomeScreenHandler(this);
-        stationScreen.setBController(new HomeController());
-        stationScreen.setPreviousScreen(this);
-        stationScreen.setScreenTitle("Station Screen");
-        stationScreen.show();
-    }
+		});
 
-    @FXML
-    void requestToSearch(MouseEvent event) throws IOException, InterruptedException, SQLException {
-        String key = search.getText();
-        Station station_rs = getBController().getSByStationName(key);
-        if(station_rs.getId() == null) {
-        	PopupScreen.error("No results.");
-        	return;
-        }
-        	
-        SearchStationScreenHandler searchStationScreen;
-        searchStationScreen = new SearchStationScreenHandler(this.stage, Configs.SEARCH_STATION, station_rs, this);
-        searchStationScreen.setHomeScreenHandler(this);
-        searchStationScreen.setBController(new HomeController());
-        searchStationScreen.setPreviousScreen(this);
-        searchStationScreen.setScreenTitle("Search Station Screen");
-        searchStationScreen.show();
+	}
 
-    }
+	public void getInfo(Station station) throws IOException, SQLException {
+		StationScreenHandler stationScreen;
+		stationScreen = new StationScreenHandler(this.stage, Configs.STATION_INFO_PATH, station);
+		stationScreen.setHomeScreenHandler(this);
+		stationScreen.setBController(new HomeController());
+		stationScreen.setPreviousScreen(this);
+		stationScreen.setScreenTitle("Station Screen");
+		stationScreen.show();
+	}
+
+	@FXML
+	void requestToSearch(MouseEvent event) throws IOException, InterruptedException, SQLException {
+		String key = search.getText();
+		Station station_rs = getBController().getSByStationName(key);
+		if (station_rs.getId() == null) {
+			PopupScreen.error("No results.");
+			return;
+		}
+
+		SearchStationScreenHandler searchStationScreen;
+		searchStationScreen = new SearchStationScreenHandler(this.stage, Configs.SEARCH_STATION, station_rs, this);
+		searchStationScreen.setHomeScreenHandler(this);
+		searchStationScreen.setBController(new HomeController());
+		searchStationScreen.setPreviousScreen(this);
+		searchStationScreen.setScreenTitle("Search Station Screen");
+		searchStationScreen.show();
+
+	}
 }

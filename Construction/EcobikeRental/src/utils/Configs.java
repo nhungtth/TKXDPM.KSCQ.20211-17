@@ -48,7 +48,8 @@ public class Configs {
 	public static final String STATION_INFO_PATH = "/views/fxml/station_info.fxml";
 	public static final String RENT_BIKE_PATH = "/views/fxml/rent_bike.fxml";
 	public static final String RETURN_BIKE_PATH = "/views/fxml/return_bike.fxml";
-	public static final String TRANSACTION_PATH = "/views/fxml/transaction.fxml";
+	public static final String RENT_TRANSACTION_PATH = "/views/fxml/rent_transaction.fxml";
+	public static final String RETURN_TRANSACTION_PATH = "/views/fxml/return_transaction.fxml";
 	public static final String DOCK_PATH = "/views/fxml/dock.fxml";
 	public static final String BIKE_STATION = "/views/fxml/bike_station.fxml";
 	public static final String SEARCH_STATION = "/views/fxml/search_station.fxml";

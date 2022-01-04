@@ -138,7 +138,7 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		}
 
 		Map<String, String> response;
-		response = ctrl.returnTransaction(bike.getDeposit(), Integer.valueOf(fees.getText()), type.getText(), contents,
+		response = ctrl.returnTransaction(bike.getDeposit(), Integer.valueOf(fees.getText()), contents,
 				cardNumber.getText(), holderName.getText(), expirationDate.getText(), securityCode.getText());
 
 		createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
@@ -152,7 +152,7 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 			bike.setReturnDock(null);
 		} else {
 			PopupScreen.success(message, this);
-			// new RentBike().updateRentBike(bike);
+			new RentBike().updateRentBike(bike);
 		}
 	}
 

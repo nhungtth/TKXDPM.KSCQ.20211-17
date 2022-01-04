@@ -30,7 +30,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="470.0" layoutY="11.0" text="Bike: " textFill="#23a834">
+                  <Label fx:id="bikeLabel" layoutX="470.0" layoutY="11.0" text="Bike: " textFill="#23a834">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

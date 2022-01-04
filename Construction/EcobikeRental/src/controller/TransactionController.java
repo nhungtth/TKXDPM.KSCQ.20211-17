@@ -71,9 +71,10 @@ public class TransactionController extends BaseController {
 	}
 
 	/**
-	 * process transaction, and then return the result with a message.
+	 * process return transaction, and then return the result with a message.
 	 * 
-	 * @param amount         - the amount to pay
+	 * @param deposit         - the deposit to refund
+	 * @param fees			- the amount to pay
 	 * @param contents       - the transaction contents
 	 * @param cardNumber     - the card number
 	 * @param cardHolderName - the card holder name
@@ -82,8 +83,8 @@ public class TransactionController extends BaseController {
 	 * @return {@link java.util.Map Map} represent the transaction result with a
 	 *         message.
 	 */
-	public Map<String, String> processTransaction(int deposit, int fees, String purpose, String contents, String cardNumber, String cardHolderName,
-			String expirationDate, String securityCode, String type) {
+	public Map<String, String> returnTransaction(int deposit, int fees, String contents, String cardNumber, String cardHolderName,
+			String expirationDate, String securityCode) {
 		Map<String, String> result = new Hashtable<String, String>();
 		result.put("RESULT", "TRANSACTION FAILED!");
 		try {
@@ -91,18 +92,45 @@ public class TransactionController extends BaseController {
 
 			this.interbank = new InterbankSubsystem();
 			int amount = 0;
-			if(purpose == Configs.RETURN) { 
-				// refund
-				amount = deposit;
-				Transaction refund = interbank.processTransaction(card, amount, contents, Configs.REFUND);
-				// pay fees
-				amount = fees;
-				Transaction pay = interbank.processTransaction(card, amount, contents, Configs.PAY);
-			} else {
-				// pay fees for rent a bike
-				amount = fees;
-				Transaction transaction = interbank.processTransaction(card, amount, contents, Configs.PAY);
-			}
+			// refund
+			amount = deposit;
+			Transaction refund = interbank.refundTransaction(card, amount, contents);
+			// pay fees
+			amount = fees;
+			Transaction pay = interbank.payTransaction(card, amount, contents);
+	
+			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
+			result.put("MESSAGE", "You have succesffully paid the transaction!");
+		} catch (PaymentException | UnrecognizedException ex) {
+			result.put("MESSAGE", ex.getMessage());
+		}
+		return result;
+	}
+
+	/**
+	 * process transaction, and then return the result with a message.
+	 * 
+	 * @param fees         - the amount to pay
+	 * @param contents       - the transaction contents
+	 * @param cardNumber     - the card number
+	 * @param cardHolderName - the card holder name
+	 * @param expirationDate - the expiration date in the format "mm/yy"
+	 * @param securityCode   - the cvv/cvc code of the credit card
+	 * @return {@link java.util.Map Map} represent the transaction result with a
+	 *         message.
+	 */
+	public Map<String, String> rentTransaction(int fees, String contents, String cardNumber, String cardHolderName,
+			String expirationDate, String securityCode) {
+		Map<String, String> result = new Hashtable<String, String>();
+		result.put("RESULT", "TRANSACTION FAILED!");
+		try {
+			this.card = new CreditCard(cardNumber, cardHolderName, Integer.parseInt(securityCode), getExpirationDate(expirationDate));
+
+			this.interbank = new InterbankSubsystem();
+			int amount = 0;
+			// pay fees for rent a bike
+			amount = fees;
+			Transaction transaction = interbank.payTransaction(card, amount, contents);
 	
 			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
 			result.put("MESSAGE", "You have succesffully paid the transaction!");
@@ -120,4 +148,5 @@ public class TransactionController extends BaseController {
         }
 		return true;
 	}
+
 }

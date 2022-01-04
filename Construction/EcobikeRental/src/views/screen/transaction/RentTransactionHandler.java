@@ -88,7 +88,6 @@ public class RentTransactionHandler extends BaseScreenHandler {
 	public void setTransactionInfo() {
 		username.setText(BaseController.getUser().getName());
 		bikeId.setText(bike.getId());
-		bikeLabel.setText("Bike: " + this.bike.getId());
 		String dockIdString = bike.getRentDock();
 		Dock d = new Dock().getDockById(dockIdString);
 		dockId.setText(dockIdString);
@@ -120,7 +119,7 @@ public class RentTransactionHandler extends BaseScreenHandler {
 		}
 
 		Map<String, String> response;
-		response = ctrl.rentTransaction(Integer.valueOf(fees.getText()), type.getText(), contents,
+		response = ctrl.rentTransaction(Integer.valueOf(fees.getText()), contents,
 				cardNumber.getText(), holderName.getText(), expirationDate.getText(), securityCode.getText());
 
 		createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
@@ -132,7 +131,7 @@ public class RentTransactionHandler extends BaseScreenHandler {
 			PopupScreen.error(message, this);
 		} else {
 			PopupScreen.success(message, this);
-			// new RentBike().updateRentBike(bike);
+			new RentBike().saveRentBike(bike);
 		}
 	}
 

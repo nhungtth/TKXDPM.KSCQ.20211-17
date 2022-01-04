@@ -12,6 +12,7 @@ import entity.rentbike.RentBike;
 import entity.station.Station;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -19,7 +20,7 @@ import utils.Configs;
 import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.popup.PopupScreen;
-import views.screen.transaction.TransactionHandler;
+import views.screen.transaction.RentTransactionHandler;
 
 public class BikeInfoHandler extends BaseScreenHandler {
 
@@ -46,6 +47,9 @@ public class BikeInfoHandler extends BaseScreenHandler {
 
 	@FXML
 	private Button cancelBtn;
+	
+	@FXML
+	private Label bikeLabel;
 
 	public BikeInfoHandler(Stage stage, String screenPath, Bike bike, Station station) throws IOException {
 		super(stage, screenPath);
@@ -60,15 +64,24 @@ public class BikeInfoHandler extends BaseScreenHandler {
 		dock.setText(this.bike.getDockId());
 		station.setText(this.b_station.getName());
 		address.setText(this.b_station.getAddress());
+		
+		RentBike rb = getBController().getRentBike();
+		if ( rb != null && rb.getId() != null) {
+			bikeLabel.setText(rb.getId());
+		}
+		
 		rentBtn.setOnMouseClicked(e -> {
 
 			try {
 				if (!bike.isStatus()) {
 					PopupScreen.error("This bike is not available to rent.");
 					return;
-				} else if(getBController().getRentBike() != null) {
-					PopupScreen.error("You must return current bike.");
-					return;
+				} else {
+					RentBike r = getBController().getRentBike();
+					if ( r != null && r.getId() != null) {
+						PopupScreen.error("You must return current bike.");
+						return;
+					}
 				}
 				RentBike rbike = new RentBike();
 				rbike.setId(bike.getId());
@@ -90,7 +103,8 @@ public class BikeInfoHandler extends BaseScreenHandler {
 	}
 
 	public void createTransactionHandler(RentBike bike) throws SQLException, IOException {
-		TransactionHandler transactionHandler = new TransactionHandler(this.stage, Configs.TRANSACTION_PATH, bike);
+		RentTransactionHandler transactionHandler = new RentTransactionHandler(this.stage,
+				Configs.RENT_TRANSACTION_PATH, bike);
 		transactionHandler.setBController(new TransactionController());
 		transactionHandler.setHomeScreenHandler(homeScreenHandler);
 		transactionHandler.show();

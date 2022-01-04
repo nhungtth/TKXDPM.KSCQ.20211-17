@@ -33,7 +33,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="701.0" layoutY="11.0" text="Bike: B01" textFill="#23a834">
+                  <Label fx:id="bikeLabel" layoutX="701.0" layoutY="11.0" text="Bike:" textFill="#23a834">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Line endX="105.00018310546875" endY="176.80001831054688" layoutX="408.0" layoutY="163.0" startX="105.0001220703125" startY="-132.80001831054688" stroke="#23a834" strokeWidth="2.0" />
+                  <Line endX="24.000030517578125" endY="183.20001220703125" layoutX="408.0" layoutY="163.0" startX="24.000030517578125" startY="-124.80000305175781" stroke="#23a834" strokeWidth="2.0" />
                   <Label layoutX="176.0" layoutY="29.0" text="Station info" textFill="#23a834">
                      <font>
                         <Font name="Segoe UI Bold" size="18.0" />
@@ -116,7 +116,7 @@
                         <Label fx:id="dock" text="dock" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
-                  <AnchorPane id="pane" fx:id="pane" layoutX="548.0" layoutY="125.0" prefHeight="188.0" prefWidth="319.0" />
+                  <AnchorPane id="pane" fx:id="pane" layoutX="450.0" layoutY="33.0" prefHeight="329.0" prefWidth="430.0" />
                </children>
             </AnchorPane>
          </items>

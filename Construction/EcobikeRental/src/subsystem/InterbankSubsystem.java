@@ -31,11 +31,20 @@ public class InterbankSubsystem implements InterbankInterface {
 	}
 
 	/**
-	 * @see InterbankInterface#processTransaction(entity.transaction.CreditCard, int,
+	 * @see InterbankInterface#payTransaction(entity.transaction.CreditCard, int,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public Transaction processTransaction(CreditCard card, int amount, String contents, String type) {
-		Transaction transaction = ctrl.processTransaction(card, amount, contents, type);
+	public Transaction payTransaction(CreditCard card, int amount, String contents) {
+		Transaction transaction = ctrl.payTransaction(card, amount, contents);
+		return transaction;
+	}
+	
+	/**
+	 * @see InterbankInterface#refundTransaction(entity.transaction.CreditCard, int,
+	 *      java.lang.String, java.lang.String)
+	 */
+	public Transaction refundTransaction(CreditCard card, int amount, String contents) {
+		Transaction transaction = ctrl.refundTransaction(card, amount, contents);
 		return transaction;
 	}
 }

@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import utils.Configs;
 import views.screen.BaseScreenHandler;
 import views.screen.popup.PopupScreen;
-import views.screen.transaction.TransactionHandler;
+import views.screen.transaction.ReturnTransactionHandler;
 
 public class ReturnBikeHandler extends BaseScreenHandler implements Initializable {
 	@FXML
@@ -111,7 +111,7 @@ public class ReturnBikeHandler extends BaseScreenHandler implements Initializabl
 	}
 
 	public void createTransactionHandler(Dock dock) throws SQLException, IOException {
-		TransactionHandler transactionHandler = new TransactionHandler(this.stage, Configs.TRANSACTION_PATH, dock);
+		ReturnTransactionHandler transactionHandler = new ReturnTransactionHandler(this.stage, Configs.RETURN_TRANSACTION_PATH, dock);
 		transactionHandler.setBController(new TransactionController());
 		transactionHandler.setHomeScreenHandler(this.homeScreenHandler);
 		transactionHandler.show();

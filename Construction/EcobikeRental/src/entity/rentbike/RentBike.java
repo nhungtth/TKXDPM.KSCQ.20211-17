@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import entity.bike.Bike;
 import entity.db.EcobikeDB;
 import entity.dock.Dock;
+import entity.station.Station;
 import utils.Utils;
 
 public class RentBike {
@@ -82,28 +83,58 @@ public class RentBike {
 		this.deposit = deposit;
 	}
 
-	public void saveRentBike(Bike bike) {
+	public void saveRentBike(RentBike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "INSERT INTO bike_rent (`bike_id`, `rent_time`, `return_time`, `rent_dock`, `return_dock`) VALUES ('?', '?', null, '?', null);";
+			String sql = "INSERT INTO bike_rent (bike_id, rent_time, rent_dock, deposit) VALUES ('" + bike.getId() + "', '" + Utils.getToday() + "', '" + bike.getRentDock() + "', " + bike.getDeposit() + ")";
+			LOGGER.info(sql);
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, bike.getId());
-			Timestamp rentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
-			statement.setTimestamp(2, rentTime);
-			statement.setString(3, bike.getDockId());
-			statement.executeUpdate(sql);
+			int rs = statement.executeUpdate(sql);
+			if (rs == 1) {
+				LOGGER.info("rent bike " + bike.getId() + " in " + bike.getRentDock());
+			}
 			statement.close();
-			con.close();
+			con.close();	
+			update(bike, true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void update(RentBike bike, boolean s) {
+		try {
+			Bike b = new Bike().getBikeById(bike.getId());
+			Dock d;
+			Station st;
+			if(s) {
+				d = new Dock().getDockById(bike.getRentDock());
+				st = new Station().getStationById(d.getStationId());
+				b.setStatus(false);
+				d.setStatus(true);
+				st.setBikeQuantity(st.getBikeQuantity() - 1);
+				st.setEmptyDocks(st.getEmptyDocks() + 1);		
+			} else {
+				d = new Dock().getDockById(bike.getReturnDock());
+				st = new Station().getStationById(d.getStationId());
+				b.setStatus(true);
+				d.setStatus(false);
+				st.setBikeQuantity(st.getBikeQuantity() + 1);
+				st.setEmptyDocks(st.getEmptyDocks() - 1);		
+			}
+			
+			b.updateBikeStatus(b);
+			d.updateDockStatus(d);
+			st.updateStation(st);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	// update rent bike in db
 	public void updateRentBike(RentBike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE bike_rent SET return_dock = " + bike.getReturnDock() + " , return_time = " + Utils.getToday() + " WHERE bike_id = '" + bike.getId() + "'";
+			String sql = "UPDATE bike_rent SET return_dock = '" + bike.getReturnDock() + "' , return_time = '" + Utils.getToday() + "' WHERE bike_id = '" + bike.getId() + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
 			int rs = statement.executeUpdate(sql);
 			if (rs == 1) {
@@ -112,7 +143,7 @@ public class RentBike {
 
 			statement.close();
 			con.close();
-
+			update(bike, false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -135,12 +166,12 @@ public class RentBike {
 			}
 			statement.close();
 			con.close();
-
+			return rentBike;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return rentBike;
+		return null;
 	}
 
 }

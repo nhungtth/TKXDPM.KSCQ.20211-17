@@ -17,10 +17,12 @@ import entity.station.Station;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import utils.Configs;
 import utils.Utils;
@@ -28,10 +30,13 @@ import views.screen.BaseScreenHandler;
 import views.screen.home.HomeScreenHandler;
 import views.screen.home.SearchStationScreenHandler;
 import views.screen.popup.PopupScreen;
-import views.screen.transaction.TransactionHandler;
+import views.screen.stationinfo.BikeHandler;
+import views.screen.transaction.RentTransactionHandler;
+
 
 public class RentBikeHandler extends BaseScreenHandler implements Initializable {
 	public static Logger LOGGER = Utils.getLogger(HomeScreenHandler.class.getName());
+	
 	@FXML
 	private AnchorPane pane;
 
@@ -39,33 +44,9 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 	private Button searchButton;
 
 	@FXML
-	private Label bikeid_1;
-
-	@FXML
-	private Label bikeid_2;
-
-	@FXML
-	private Label station_1;
-
-	@FXML
-	private Label station_2;
-
-	@FXML
-	private Label dock_1;
-
-	@FXML
-	private Label dock_2;
-
-	@FXML
-	private Button button_1;
-
-	@FXML
-	private Button button_2;
-
-	@FXML
 	private TextField search;
 
-	private List Bike;
+	private List bikes;
 	private List rentBikeItems;
 
 	public RentBikeController getBController() {
@@ -74,7 +55,34 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 
 	public RentBikeHandler(Stage stage, String screenPath) throws IOException {
 		super(stage, screenPath);
+		setBController(new RentBikeController());
+		List bikes = getBController().getAllBikeAvailable();
+		this.rentBikeItems = new ArrayList<>();
+        for(Object o: bikes) {
+            Bike bike = (Bike) o;
+            BikeHandler handler = new BikeHandler(Configs.BIKE_STATION, bike, this);
+            this.rentBikeItems.add(handler);
+        }
+        addBikesToGrid(this.rentBikeItems);
 	}
+	
+	private void addBikesToGrid(List items) {
+        ArrayList list = (ArrayList)((ArrayList) items).clone();
+        GridPane grid = new GridPane();
+        grid.setMaxWidth(pane.getMaxWidth());
+        int c = 0;
+        int r = 0;
+        for(Object item: list) {
+            BikeHandler dh = (BikeHandler) item;
+            if (c > 1) {
+				c = 0;
+				r++;
+			}
+            grid.add(dh.getContent(), c, r);
+            c++;
+        }
+        this.pane.getChildren().add(grid);
+    }
 
 	public void createTransactionHandler(Bike bike) throws SQLException, IOException {
 		RentBike rbike = new RentBike();
@@ -82,7 +90,7 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 		rbike.setRentDock(bike.getDockId());
 		rbike.setDeposit(getBController().calculateDeposit(bike.getType()));
 		rbike.setRentDate(Utils.getToday());
-		TransactionHandler transactionHandler = new TransactionHandler(this.stage, Configs.TRANSACTION_PATH, rbike);
+		RentTransactionHandler transactionHandler = new RentTransactionHandler(this.stage, Configs.RENT_TRANSACTION_PATH, rbike);
 		transactionHandler.setBController(new TransactionController());
 		transactionHandler.setHomeScreenHandler(this.homeScreenHandler);
 		transactionHandler.show();
@@ -90,38 +98,11 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setBController(new RentBikeController());
-		List Bike = getBController().getAllBikeAvailable();
-		this.rentBikeItems = (ArrayList) ((ArrayList) Bike).clone();
-
-		Bike bike_1 = (Bike) rentBikeItems.get(0);
-		Bike bike_2 = (Bike) rentBikeItems.get(1);
-		bikeid_1.setText(String.valueOf(bike_1.getId()));
-		bikeid_2.setText(String.valueOf(bike_2.getId()));
-
-		dock_1.setText(String.valueOf(bike_1.getDockId()));
-		dock_2.setText(String.valueOf(bike_2.getDockId()));
-		button_1.setOnMouseClicked(e -> {
-			try {
-				if (getBController().checkBikeAvalaible(bike_1.getId()))
-					createTransactionHandler(bike_1);
-				else
-					PopupScreen.error("This bike is not available now.");
-			} catch (SQLException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		button_2.setOnMouseClicked(e -> {
-			try {
-				if (getBController().checkBikeAvalaible(bike_2.getId()))
-					createTransactionHandler(bike_2);
-				else 
-					PopupScreen.error("This bike is not available now.");
-			} catch (SQLException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+		
+	}
+	
+	@FXML
+	public void goHome(MouseEvent e) {
+		homeScreenHandler.show();
 	}
 }

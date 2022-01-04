@@ -8,6 +8,7 @@ import controller.BaseController;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.Configs;
 import views.screen.home.HomeScreenHandler;
 
 public class BaseScreenHandler extends FXMLScreenHandler {
@@ -63,6 +64,11 @@ public class BaseScreenHandler extends FXMLScreenHandler {
 
 	public void setHomeScreenHandler(HomeScreenHandler HomeScreenHandler) {
 		this.homeScreenHandler = HomeScreenHandler;
+	}
+
+	public void goHome() throws IOException {
+		homeScreenHandler = new HomeScreenHandler(stage, Configs.HOME_PATH);
+		homeScreenHandler.show();
 	}
 
 }
