@@ -1,6 +1,7 @@
 Installation:
 - Java 11 or later: Install in https://www.oracle.com/java/technologies/downloads/
-- Database: MySQL
 - JUnit5 for unit test
 - Install JavaFX SDK
 - mysql-connector-java.jar: Downnload in https://mvnrepository.com/artifact/mysql/mysql-connector-java
+- Database: MySQL
+script in : TKXDPM.KSCQ.20211-17\Construction\EcobikeRental\assets\db\ecobike.sql
