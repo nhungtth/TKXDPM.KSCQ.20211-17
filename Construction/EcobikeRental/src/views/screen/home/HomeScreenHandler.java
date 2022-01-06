@@ -78,6 +78,7 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setBController(new HomeController());
+		this.bike = getBController().getRentBike();
 		try {
 			List stations = getBController().getAllStation();
 			this.homeItems = new ArrayList<>();

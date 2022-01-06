@@ -109,12 +109,15 @@ public class Dock {
 		Dock dock = new Dock();
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM dock WHERE dock_id = '" + id + "'";
+			String sql = "SELECT * FROM dock d INNER JOIN station s ON d.station_id = s.station_id WHERE d.dock_id = '" + id + "'";
 			PreparedStatement statement = con.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			if(rs.next()) {
 				dock.setId(id);
 				dock.setStatus(rs.getBoolean("status"));
+				dock.setStationId(rs.getString("station_id"));
+				dock.setAddress(rs.getString("address"));
+				dock.setStationName(rs.getString("name"));
 			}
 			
 			statement.close();

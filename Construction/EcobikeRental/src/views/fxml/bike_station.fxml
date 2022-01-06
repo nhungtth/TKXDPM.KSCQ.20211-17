@@ -21,12 +21,12 @@
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="139.0" layoutY="42.0" text="Type: ">
+            <Label layoutX="140.0" layoutY="33.0" text="Type: ">
                <font>
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="139.0" layoutY="66.0" text="Dock: ">
+            <Label layoutX="139.0" layoutY="57.0" text="Dock: ">
                <font>
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
@@ -36,12 +36,12 @@
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="type" layoutX="181.0" layoutY="42.0" prefHeight="18.0" prefWidth="57.0" text="type">
+            <Label fx:id="type" layoutX="180.0" layoutY="33.0" prefHeight="18.0" prefWidth="122.0" text="type">
                <font>
-                  <Font name="Segoe UI Bold" size="14.0" />
+                  <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="dock" layoutX="211.0" layoutY="66.0" text="D02">
+            <Label fx:id="dock" layoutX="192.0" layoutY="57.0" text="D02">
                <font>
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
@@ -51,6 +51,16 @@
                   <Image url="@../../../assets/images/Logo.png" />
                </image>
             </ImageView>
+            <Label fx:id="stationLabel" layoutX="139.0" layoutY="82.0" text="Station:">
+               <font>
+                  <Font name="Segoe UI Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="station" layoutX="192.0" layoutY="82.0" prefHeight="18.0" prefWidth="109.0">
+               <font>
+                  <Font name="Segoe UI Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

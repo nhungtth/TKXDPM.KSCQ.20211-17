@@ -22,7 +22,7 @@
                         <Image url="@../../../assets/images/Logo.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutX="152.0" layoutY="42.0" prefHeight="40.0" prefWidth="470.0" promptText="Search For Station" style="-fx-border-color: #35bf26;" text="Aquabay">
+                  <TextField layoutX="152.0" layoutY="42.0" prefHeight="40.0" prefWidth="470.0" promptText="Search For Station" style="-fx-border-color: #35bf26;">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -37,7 +37,7 @@
                         <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="660.0" layoutY="15.0" text="USER" textFill="#23a834">
+                  <Label layoutX="660.0" layoutY="15.0" text="admin" textFill="#23a834">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

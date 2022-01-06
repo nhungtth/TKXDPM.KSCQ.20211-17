@@ -114,7 +114,7 @@ public class RentTransactionHandler extends BaseScreenHandler {
 		info.put("expirationDate", expirationDate.getText());
 		info.put("cvv", securityCode.getText());
 		if (!ctrl.validateTransactionInfo(info)) {
-			PopupScreen.error("Please enter all fields.");
+			//PopupScreen.error("Please enter all fields.");
 			return;
 		}
 

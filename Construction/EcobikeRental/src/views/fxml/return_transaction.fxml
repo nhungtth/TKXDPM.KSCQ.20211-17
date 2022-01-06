@@ -153,7 +153,7 @@
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </Label>
-                  <Text fx:id="username" layoutX="251.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="192.15704345703125">
+                  <Text fx:id="username" layoutX="251.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="admin" wrappingWidth="192.15704345703125">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>

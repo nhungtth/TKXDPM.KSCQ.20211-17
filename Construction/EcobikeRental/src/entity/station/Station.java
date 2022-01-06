@@ -155,8 +155,8 @@ public class Station {
 			PreparedStatement statement = con.prepareStatement(sql);
 			int rs = statement.executeUpdate(sql);
 
-			LOGGER.info("Update station " + station.getId() + ": " + station.getBikeQuantity() + "bikes, "
-					+ station.getEmptyDocks() + "docks.\n");
+			LOGGER.info("Update station " + station.getId() + ": " + station.getBikeQuantity() + " bikes, "
+					+ station.getEmptyDocks() + " docks.");
 			statement.close();
 			con.close();
 

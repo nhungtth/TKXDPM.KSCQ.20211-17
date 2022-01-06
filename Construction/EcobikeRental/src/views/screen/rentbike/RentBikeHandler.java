@@ -12,6 +12,7 @@ import controller.HomeController;
 import controller.RentBikeController;
 import controller.TransactionController;
 import entity.bike.Bike;
+import entity.dock.Dock;
 import entity.rentbike.RentBike;
 import entity.station.Station;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ import views.screen.BaseScreenHandler;
 import views.screen.home.HomeScreenHandler;
 import views.screen.home.SearchStationScreenHandler;
 import views.screen.popup.PopupScreen;
+import views.screen.returnbike.DockHandler;
 import views.screen.stationinfo.BikeHandler;
 import views.screen.transaction.RentTransactionHandler;
 
@@ -41,7 +43,7 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 	private AnchorPane pane;
 
 	@FXML
-	private Button searchButton;
+	private Button searchBtn;
 
 	@FXML
 	private TextField search;
@@ -64,6 +66,31 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
             this.rentBikeItems.add(handler);
         }
         addBikesToGrid(this.rentBikeItems);
+        
+        searchBtn.setOnAction(e -> {
+			String key = search.getText();
+			if (key != null) {
+				List filter = new ArrayList<>();
+				rentBikeItems.forEach(d -> {
+					BikeHandler dh = (BikeHandler) d;
+					if (dh.getStation().getText().contains(key)) {
+						filter.add(dh);
+					}
+				});
+				if (filter.size() == 0) {
+					try {
+						PopupScreen.error("No results.");
+						addBikesToGrid(this.rentBikeItems);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					pane.getChildren().clear();
+					addBikesToGrid(filter);
+				}
+			}
+		});
 	}
 	
 	private void addBikesToGrid(List items) {
