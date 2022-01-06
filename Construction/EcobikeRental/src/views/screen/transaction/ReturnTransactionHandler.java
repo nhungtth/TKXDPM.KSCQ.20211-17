@@ -106,7 +106,7 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		bike.setReturnDock(dock.getId());
 		bike.setReturnDate(Utils.getToday());
 
-		long t = (bike.getReturnDate().getTime() - bike.getRentDate().getTime()) / 6000000;
+		long t = (bike.getReturnDate().getTime() - bike.getRentDate().getTime()) / 60000;
 		time.setText(String.valueOf(t));
 
 		int f = new ReturnBikeController().calculateFees(t);
