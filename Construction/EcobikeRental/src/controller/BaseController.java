@@ -16,7 +16,10 @@ public class BaseController {
 	 * @return RentBike
 	 */
 	public static RentBike getRentBike() {
-		return RentBike.getCurrentBike();
+		RentBike r = new RentBike().getCurrentBike();
+		if(r != null)
+			return r;
+		return null;
 	}
 
 	/**
@@ -27,21 +30,21 @@ public class BaseController {
 		return User.getCurrentUser();
 	}
 
-	/**
-	 * this method calculate deposit when rent a bike
-	 * @param id: id of bike user want to rent
-	 * @return amount to deposit
-	 */
-	public int calculateDeposit(String id) {
-		switch (id) {
-		case Configs.TWIN:
-			return 550000;
-		case Configs.EBIKE:
-			return 700000;
-		case Configs.STANDARD:
-			return 400000;
-		default:
-			return 0;
-		}
-	}
+//	/**
+//	 * this method calculate deposit when rent a bike
+//	 * @param id: id of bike user want to rent
+//	 * @return amount to deposit
+//	 */
+//	public int calculateDeposit(String id) {
+//		switch (id) {
+//		case Configs.TWIN:
+//			return 550000;
+//		case Configs.EBIKE:
+//			return 700000;
+//		case Configs.STANDARD:
+//			return 400000;
+//		default:
+//			return 0;
+//		}
+//	}
 }

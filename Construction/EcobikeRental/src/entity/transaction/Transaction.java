@@ -90,20 +90,17 @@ public class Transaction {
 	public static void saveTransaction(Transaction transaction) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "INSERT INTO 'transaction'(content, amount, create_at, bike_id, type, purpose) VALUES (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO transaction(transaction_id, content, amount, create_at, purpose, type) VALUES ('"
+			+ transaction.getId() + "', '" + transaction.getContent() + "', '" + transaction.getAmount() + "', '" 
+					+ Utils.getToday() + "', '" + transaction.getPurpose() 
+					+ "', '" + transaction.getType() + "')";
+			//LOGGER.info(sql);
 			PreparedStatement statement = con.prepareStatement(sql);
-			statement.setString(1, transaction.getContent());
-			statement.setInt(2, transaction.getAmount());
-			statement.setTimestamp(3, Utils.getToday());
-			statement.setString(4, transaction.getBike().getId());
-			statement.setString(4, transaction.getBike().getId());
-			statement.setString(5, transaction.getType());
-			statement.setString(6, transaction.getPurpose());
 			
 			int rs = statement.executeUpdate(sql);
  
 			if (rs == 1) {
-				LOGGER.info("Transaction: amount-" + transaction.getAmount() + " type-" + transaction.getType() + " for-" + transaction.getPurpose());
+				LOGGER.info("Transaction: amount " + transaction.getAmount() + " type: " + transaction.getType() + " for " + transaction.getPurpose());
 			} else {
 				LOGGER.info("There is something wrong while save transaction.");
 			}

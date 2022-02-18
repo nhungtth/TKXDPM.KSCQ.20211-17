@@ -1,18 +1,20 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import entity.dock.Dock;
 import utils.Configs;
+import utils.Utils;
 
 /**
  * this class controls the flow of events in return bike usecase
  * @author NhungTTH
  *
  */
-public class ReturnBikeController extends BaseController {
+public class ReturnBikeController extends BaseController implements FeesCalculator{
 
 	/**
 	 * this method checks if a dock is available now
@@ -33,7 +35,10 @@ public class ReturnBikeController extends BaseController {
 	 * @return List[Dock]
 	 */
 	public List getAvailableDocks() {
-		return Dock.getDocksAvailable();
+		List dock =  Dock.getDocksAvailable();
+		if(dock == null || dock.size() <= 0 )
+			return null;
+		return dock;
 	}
 
 	/**
@@ -41,7 +46,8 @@ public class ReturnBikeController extends BaseController {
 	 * @param t: time renting bike (minutes)
 	 * @return total: amount to pay
 	 */
-	public int calculateFees(long t) {
+	@Override
+	public int calculateFees(long t, String type) {
 		int total = 0;
 		if (t >= 10) {
 			total += 10000;
@@ -50,8 +56,9 @@ public class ReturnBikeController extends BaseController {
 				total += (t / 15) * 3000;
 			}
 		}
+		if(type != Configs.STANDARD)
+			total = (int) (total*1.5);
 		return total;
 	}
-
 
 }

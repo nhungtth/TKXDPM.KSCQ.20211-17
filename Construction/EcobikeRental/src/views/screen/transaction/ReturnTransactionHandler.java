@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 import controller.BaseController;
 import controller.ReturnBikeController;
 import controller.TransactionController;
+import entity.bike.Bike;
 import entity.dock.Dock;
 import entity.rentbike.RentBike;
+import entity.transaction.CreditCard;
 import entity.transaction.Transaction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -76,11 +78,11 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 	private RentBike bike;
 
 	// for return transaction
-	public ReturnTransactionHandler(Stage stage, String screenPath, Dock dock) throws SQLException, IOException {
+	public ReturnTransactionHandler(Stage stage, String screenPath, RentBike bike, int fees, long time) throws SQLException, IOException {
 		super(stage, screenPath);
-		this.dock = dock;
-		this.bike = BaseController.getRentBike();
-		setTransactionInfo();
+		this.bike = bike;
+		this.dock = new Dock().getDockById(this.bike.getReturnDock());
+		setTransactionInfo(fees, time);
 		setCardInfo();
 	}
 
@@ -95,7 +97,7 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		securityCode.setText(Configs.CVV);
 	}
 
-	public void setTransactionInfo() {
+	public void setTransactionInfo(int fee, long t) {
 		username.setText(BaseController.getUser().getName());
 		bikeId.setText(bike.getId());
 		bikeLabel.setText("Bike: " + this.bike.getId());
@@ -103,14 +105,8 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		station.setText(dock.getStationName());
 		deposit.setText(String.valueOf(bike.getDeposit()));
 
-		bike.setReturnDock(dock.getId());
-		bike.setReturnDate(Utils.getToday());
-
-		long t = (bike.getReturnDate().getTime() - bike.getRentDate().getTime()) / 60000;
 		time.setText(String.valueOf(t));
-
-		int f = new ReturnBikeController().calculateFees(t);
-		fees.setText(String.valueOf(f));
+		fees.setText(String.valueOf(fee));
 		type.setText(Configs.RETURN);
 
 		btnConfirm.setOnMouseClicked(e -> {
@@ -138,10 +134,10 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		}
 
 		Map<String, String> response;
-		response = ctrl.returnTransaction(bike.getDeposit(), Integer.valueOf(fees.getText()), contents,
-				cardNumber.getText(), holderName.getText(), expirationDate.getText(), securityCode.getText());
+		CreditCard card = new CreditCard(cardNumber.getText(), holderName.getText(), Integer.parseInt(securityCode.getText()), expirationDate.getText());
+		response = ctrl.returnTransaction(bike.getDeposit(), Integer.valueOf(fees.getText()), contents, card);
 
-		createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
+		//createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
 		displayResult(response.get("RESULT"), response.get("MESSAGE"));
 	}
 
@@ -160,7 +156,8 @@ public class ReturnTransactionHandler extends BaseScreenHandler {
 		if (response.get("RESULT") == "TRANSACTION FAILED!")
 			return;
 		Transaction transaction = new Transaction(type, bike, amount, username.getText(), contents);
-		// Transaction.saveTransaction(transaction);
+		transaction.setPurpose(Configs.RETURN);
+		Transaction.saveTransaction(transaction);
 	}
 
 	@FXML

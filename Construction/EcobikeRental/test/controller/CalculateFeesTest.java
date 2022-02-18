@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import utils.Configs;
+
 class CalculateFeesTest {
 	private ReturnBikeController returnBikeController;
 
@@ -24,7 +26,7 @@ class CalculateFeesTest {
 		"61, 16000"
 	})
 	void test(long time, int expected) {
-		int total = this.returnBikeController.calculateFees(time);
+		int total = this.returnBikeController.calculateFees(time, Configs.STANDARD);
 		assertEquals(expected, total);
 	}
 

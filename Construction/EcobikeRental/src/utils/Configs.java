@@ -1,5 +1,9 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -61,6 +65,7 @@ public class Configs {
 	public static final String STANDARD = "Standard Bike";
 	public static final String EBIKE = "Standard E-bike";
 	public static final String TWIN = "Twin Bike";
+	public static final Set<String> set = Set.of(STANDARD, EBIKE, TWIN);
 	
 	// purpose of transaction
 	public static final String RETURN = "Return";

@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
- * @author nguyenlm Contains helper functions
+ * @author nhungtth Contains helper functions
  */
 public class Utils {
 
@@ -36,12 +36,17 @@ public class Utils {
 	public static Timestamp getToday() {
 	    return new Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
+	
+	public static long calculateTime(Timestamp start) {
+		Timestamp end = getToday();
+		return (end.getTime() - start.getTime())/60000;
+	}
 
 	/**
 	 * Return a {@link java.lang.String String} that represents the cipher text
 	 * encrypted by md5 algorithm.
 	 * 
-	 * @author hieudm vnpay
+	 * @author nhungtth vnpay
 	 * @param message - plain text as {@link java.lang.String String}.
 	 * @return cipher text as {@link java.lang.String String}.
 	 */

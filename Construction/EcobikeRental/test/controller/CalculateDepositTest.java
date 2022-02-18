@@ -8,22 +8,21 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class CalculateDepositTest {
-	private BaseController baseController;
+	private RentBikeController rentBikeController;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.baseController = new BaseController();
+		this.rentBikeController = new RentBikeController();
 	}
 
 	@ParameterizedTest
 	@CsvSource({
-		"other, 0",
-		"Standard Bike, 400000",
-		"Standard E-bike, 700000",
-		"Twin Bike, 550000",
+		"1000000, 400000",
+		"1375000, 550000",
+		"1750000, 700000",
 	})
-	void test(String type, int expected) {
-		int deposit = this.baseController.calculateDeposit(type);
+	void test(int price, int expected) {
+		int deposit = this.rentBikeController.calculateDeposit(price);
 		assertEquals(expected, deposit);
 	}
 

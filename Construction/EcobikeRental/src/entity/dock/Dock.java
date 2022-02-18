@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import entity.db.EcobikeDB;
+import entity.station.Station;
 import utils.Utils;
 
 public class Dock {
@@ -96,8 +97,19 @@ public class Dock {
 			if(rs == 1) {
 				LOGGER.info("Update dock " + dock.getId() + "to " + dock.isStatus());
 			}
-			
 			statement.close();
+			
+			// update station of dock
+			Station st = new Station().getStationById(dock.getStationId());
+			if(dock.isStatus()) {
+				st.setBikeQuantity(st.getBikeQuantity() - 1);
+				st.setEmptyDocks(st.getEmptyDocks() + 1);		
+			} else {
+				st.setBikeQuantity(st.getBikeQuantity() + 1);
+				st.setEmptyDocks(st.getEmptyDocks() - 1);	
+			}
+			
+			st.updateStation(st);
 			con.close();
 
 		} catch (SQLException e) {

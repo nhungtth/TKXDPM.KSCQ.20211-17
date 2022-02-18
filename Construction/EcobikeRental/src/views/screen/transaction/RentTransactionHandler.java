@@ -10,6 +10,7 @@ import controller.ReturnBikeController;
 import controller.TransactionController;
 import entity.dock.Dock;
 import entity.rentbike.RentBike;
+import entity.transaction.CreditCard;
 import entity.transaction.Transaction;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -119,10 +120,10 @@ public class RentTransactionHandler extends BaseScreenHandler {
 		}
 
 		Map<String, String> response;
-		response = ctrl.rentTransaction(Integer.valueOf(fees.getText()), contents,
-				cardNumber.getText(), holderName.getText(), expirationDate.getText(), securityCode.getText());
+		CreditCard card = new CreditCard(cardNumber.getText(), holderName.getText(), Integer.parseInt(securityCode.getText()), expirationDate.getText());
+		response = ctrl.rentTransaction(Integer.valueOf(fees.getText()), contents, card);
 
-		createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
+		//createTransaction(Configs.PAY, Integer.valueOf(fees.getText()), contents, response);
 		displayResult(response.get("RESULT"), response.get("MESSAGE"));
 	}
 
@@ -139,7 +140,8 @@ public class RentTransactionHandler extends BaseScreenHandler {
 		if (response.get("RESULT") == "TRANSACTION FAILED!")
 			return;
 		Transaction transaction = new Transaction(type, bike, amount, username.getText(), contents);
-		// Transaction.saveTransaction(transaction);
+		transaction.setPurpose(Configs.RENT);
+		Transaction.saveTransaction(transaction);
 	}
 
 	@FXML

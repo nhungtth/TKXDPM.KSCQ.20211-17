@@ -10,6 +10,7 @@ import java.util.List;
 
 import entity.bike.Bike;
 import entity.station.Station;
+import utils.Configs;
 
 /**
  * this class controls the flow of events in rent bike usecase
@@ -17,7 +18,7 @@ import entity.station.Station;
  * @author LanVTN
  *
  */
-public class RentBikeController extends BaseController {
+public class RentBikeController extends BaseController implements DepositCalculator{
 
 	/**
 	 * this method get all bikes available in station with name
@@ -26,7 +27,10 @@ public class RentBikeController extends BaseController {
 	 * @return List[Bike]
 	 */
 	public List<Bike> getBikesAvailableByStationName(String name) {
-		return Bike.getBikesAvailableByStationName(name);
+		List bikes =  Bike.getBikesAvailableByStationName(name);
+		if(bikes == null || bikes.size() <= 0 )
+			return null;
+		return bikes;
 	}
 
 	/**
@@ -49,7 +53,10 @@ public class RentBikeController extends BaseController {
 	 * @return List[Bike]
 	 */
 	public List<Bike> getAllBikeAvailable() {
-		return Bike.getAllBikeAvailable();
+		List bikes =  Bike.getAllBikeAvailable();
+		if(bikes == null || bikes.size() <= 0 )
+			return null;
+		return bikes;
 	}
 
 	/**
@@ -58,7 +65,8 @@ public class RentBikeController extends BaseController {
 	 * @param bike
 	 */
 	public void updateBikeStatus(Bike bike) {
-		bike.updateBikeStatus(bike);
+		if(bike != null)
+			bike.updateBikeStatus(bike);
 	}
 
 	/**
@@ -67,7 +75,18 @@ public class RentBikeController extends BaseController {
 	 * @param bike
 	 */
 	public void saveRentBike(RentBike bike) {
-		new RentBike().saveRentBike(bike);
+		if(bike != null)
+			new RentBike().saveRentBike(bike);
+	}
+	
+	/**
+	 * this method calculate deposit when rent a bike
+	 * @param price
+	 * @return amount to deposit
+	 */
+	@Override
+	public int calculateDeposit(int price) {
+		return (int) (price*0.4);
 	}
 
 }

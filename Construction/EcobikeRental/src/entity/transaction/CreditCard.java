@@ -15,4 +15,14 @@ public class CreditCard {
 		this.cvvCode = cvvCode;
 		this.dateExpired = dateExpired;
 	}
+
+	public String getDateExpired() {
+		return dateExpired;
+	}
+
+	public void setDateExpired(String dateExpired) {
+		this.dateExpired = dateExpired;
+	}
+	
+	
 }

@@ -24,6 +24,7 @@ public class RentBike {
 	private String rentDock;
 	private String returnDock;
 	private int deposit;
+	private String type;
 
 	public RentBike(String id, Timestamp rentDate, String rentDock, int deposit) {
 		this.id = id;
@@ -84,6 +85,14 @@ public class RentBike {
 		this.deposit = deposit;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public void saveRentBike(RentBike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
@@ -106,26 +115,21 @@ public class RentBike {
 		try {
 			Bike b = new Bike().getBikeById(bike.getId());
 			Dock d;
-			Station st;
 			if(s) {
 				d = new Dock().getDockById(bike.getRentDock());
-				st = new Station().getStationById(d.getStationId());
 				b.setStatus(false);
+				b.setDockId(null);
 				d.setStatus(true);
-				st.setBikeQuantity(st.getBikeQuantity() - 1);
-				st.setEmptyDocks(st.getEmptyDocks() + 1);		
 			} else {
 				d = new Dock().getDockById(bike.getReturnDock());
-				st = new Station().getStationById(d.getStationId());
 				b.setStatus(true);
-				d.setStatus(false);
-				st.setBikeQuantity(st.getBikeQuantity() + 1);
-				st.setEmptyDocks(st.getEmptyDocks() - 1);		
+				b.setDockId(d.getId());
+				d.setStatus(false);		
 			}
 			
 			b.updateBikeStatus(b);
 			d.updateDockStatus(d);
-			st.updateStation(st);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,17 +154,18 @@ public class RentBike {
 		}
 	}
 
-	public static RentBike getCurrentBike() {
+	public RentBike getCurrentBike() {
 		RentBike rentBike = new RentBike();
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "SELECT * FROM bike_rent WHERE return_dock IS NULL";
+			String sql = "SELECT * FROM bike_rent r INNER JOIN bike b ON r.bike_id = b.bike_id WHERE return_dock IS NULL";
 			PreparedStatement statement = con.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery(sql);
 
 			if (rs.next()) {
 				rentBike = new RentBike(rs.getString("bike_id"), rs.getTimestamp("rent_time"), rs.getString("rent_dock"),
 						rs.getInt("deposit"));
+				rentBike.setType(rs.getString("type"));
 				LOGGER.info("Current Bike rented: " + rentBike.getId());
 			} else {
 				LOGGER.info("There is no bike being rented.");
@@ -174,5 +179,6 @@ public class RentBike {
 
 		return null;
 	}
+	
 
 }

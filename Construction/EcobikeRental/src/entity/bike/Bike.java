@@ -7,7 +7,9 @@ import entity.dock.Dock;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +18,12 @@ import entity.db.EcobikeDB;
 import entity.station.Station;
 
 public class Bike {
-	private String id;
-	private String type;
-	private int price;
-	private boolean status; // status of bike
-	private String dockId;
-
+	protected String id;
+	protected String type;
+	protected int price;
+	protected boolean status; // status of bike
+	protected String dockId;
+	
 	public String getId() {
 		return id;
 	}
@@ -165,7 +167,13 @@ public class Bike {
 	public void updateBikeStatus(Bike bike) {
 		try {
 			Connection con = EcobikeDB.getConnection();
-			String sql = "UPDATE bike SET status = " + bike.isStatus() +" WHERE bike_id = '" + bike.getId() + "'";
+			String sql = "";
+			if(bike.getDockId() != null)
+				sql = "UPDATE bike SET status = " + bike.isStatus() + ", dock_id = '" + bike.getDockId() +"' WHERE bike_id = '" + bike.getId() + "'";
+			else {
+				sql = "UPDATE bike SET status = " + bike.isStatus() + ", dock_id = null WHERE bike_id = '" + bike.getId() + "'";
+			}
+
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.executeUpdate(sql);
 			statement.close();
@@ -199,5 +207,9 @@ public class Bike {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public HashMap getAdvancedInfo(){
+		return null;
 	}
 }

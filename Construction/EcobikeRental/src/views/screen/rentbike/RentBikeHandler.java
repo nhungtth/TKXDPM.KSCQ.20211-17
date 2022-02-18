@@ -115,7 +115,7 @@ public class RentBikeHandler extends BaseScreenHandler implements Initializable 
 		RentBike rbike = new RentBike();
 		rbike.setId(bike.getId());
 		rbike.setRentDock(bike.getDockId());
-		rbike.setDeposit(getBController().calculateDeposit(bike.getType()));
+		rbike.setDeposit(getBController().calculateDeposit(bike.getPrice()));
 		rbike.setRentDate(Utils.getToday());
 		RentTransactionHandler transactionHandler = new RentTransactionHandler(this.stage, Configs.RENT_TRANSACTION_PATH, rbike);
 		transactionHandler.setBController(new TransactionController());

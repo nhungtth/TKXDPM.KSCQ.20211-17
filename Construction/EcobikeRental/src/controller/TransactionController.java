@@ -35,6 +35,92 @@ public class TransactionController extends BaseController {
 	private InterbankInterface interbank;
 
 	/**
+	 * process return transaction, and then return the result with a message.
+	 * 
+	 * @param deposit         - the deposit to refund
+	 * @param fees			- the amount to pay
+	 * @param contents       - the transaction contents
+	 * @param cardNumber     - the card number
+	 * @param cardHolderName - the card holder name
+	 * @param expirationDate - the expiration date in the format "mm/yy"
+	 * @param securityCode   - the cvv/cvc code of the credit card
+	 * @return {@link java.util.Map Map} represent the transaction result with a
+	 *         message.
+	 */
+	public Map<String, String> returnTransaction(int deposit, int fees, String contents, CreditCard card) {
+		Map<String, String> result = new Hashtable<String, String>();
+		result.put("RESULT", "TRANSACTION FAILED!");
+		try {
+			this.card = card;
+			this.card.setDateExpired(getExpirationDate(card.getDateExpired()));
+
+			this.interbank = new InterbankSubsystem();
+			int amount = 0;
+			// refund
+			amount = deposit;
+			Transaction refund = interbank.refundTransaction(card, amount, contents);
+			refund.setPurpose(Configs.RETURN);
+			Transaction.saveTransaction(refund);
+			
+			// pay fees
+			amount = fees;
+			Transaction pay = interbank.payTransaction(card, amount, contents);
+			pay.setPurpose(Configs.RETURN);
+			Transaction.saveTransaction(pay);
+			
+			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
+			result.put("MESSAGE", "You have succesffully paid the transaction!");
+		} catch (PaymentException | UnrecognizedException ex) {
+			result.put("MESSAGE", ex.getMessage());
+		}
+		return result;
+	}
+
+	/**
+	 * process transaction, and then return the result with a message.
+	 * 
+	 * @param fees         - the amount to pay
+	 * @param contents       - the transaction contents
+	 * @param cardNumber     - the card number
+	 * @param cardHolderName - the card holder name
+	 * @param expirationDate - the expiration date in the format "mm/yy"
+	 * @param securityCode   - the cvv/cvc code of the credit card
+	 * @return {@link java.util.Map Map} represent the transaction result with a
+	 *         message.
+	 */
+	public Map<String, String> rentTransaction(int fees, String contents,CreditCard card) {
+		Map<String, String> result = new Hashtable<String, String>();
+		result.put("RESULT", "TRANSACTION FAILED!");
+		try {
+			this.card = card;
+			this.card.setDateExpired(getExpirationDate(card.getDateExpired()));
+
+			this.interbank = new InterbankSubsystem();
+			int amount = 0;
+			// pay fees for rent a bike
+			amount = fees;
+			Transaction transaction = interbank.payTransaction(card, amount, contents);
+			transaction.setPurpose(Configs.RENT);
+			Transaction.saveTransaction(transaction);
+	
+			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
+			result.put("MESSAGE", "You have succesffully paid the transaction!");
+		} catch (PaymentException | UnrecognizedException ex) {
+			result.put("MESSAGE", ex.getMessage());
+		}
+		return result;
+	}
+
+	
+	public boolean validateTransactionInfo(HashMap<String, String> message) {
+		for (Map.Entry<String, String> pair: message.entrySet()) {
+            if(pair.getValue() == "")
+            	return false;
+        }
+		return true;
+	}
+	
+	/**
 	 * Validate the input date which should be in the format "mm/yy", and then
 	 * return a {@link java.lang.String String} representing the date in the
 	 * required format "mmyy" .
@@ -68,85 +154,6 @@ public class TransactionController extends BaseController {
 		}
 
 		return expirationDate;
-	}
-
-	/**
-	 * process return transaction, and then return the result with a message.
-	 * 
-	 * @param deposit         - the deposit to refund
-	 * @param fees			- the amount to pay
-	 * @param contents       - the transaction contents
-	 * @param cardNumber     - the card number
-	 * @param cardHolderName - the card holder name
-	 * @param expirationDate - the expiration date in the format "mm/yy"
-	 * @param securityCode   - the cvv/cvc code of the credit card
-	 * @return {@link java.util.Map Map} represent the transaction result with a
-	 *         message.
-	 */
-	public Map<String, String> returnTransaction(int deposit, int fees, String contents, String cardNumber, String cardHolderName,
-			String expirationDate, String securityCode) {
-		Map<String, String> result = new Hashtable<String, String>();
-		result.put("RESULT", "TRANSACTION FAILED!");
-		try {
-			this.card = new CreditCard(cardNumber, cardHolderName, Integer.parseInt(securityCode), getExpirationDate(expirationDate));
-
-			this.interbank = new InterbankSubsystem();
-			int amount = 0;
-			// refund
-			amount = deposit;
-			Transaction refund = interbank.refundTransaction(card, amount, contents);
-			// pay fees
-			amount = fees;
-			Transaction pay = interbank.payTransaction(card, amount, contents);
-	
-			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
-			result.put("MESSAGE", "You have succesffully paid the transaction!");
-		} catch (PaymentException | UnrecognizedException ex) {
-			result.put("MESSAGE", ex.getMessage());
-		}
-		return result;
-	}
-
-	/**
-	 * process transaction, and then return the result with a message.
-	 * 
-	 * @param fees         - the amount to pay
-	 * @param contents       - the transaction contents
-	 * @param cardNumber     - the card number
-	 * @param cardHolderName - the card holder name
-	 * @param expirationDate - the expiration date in the format "mm/yy"
-	 * @param securityCode   - the cvv/cvc code of the credit card
-	 * @return {@link java.util.Map Map} represent the transaction result with a
-	 *         message.
-	 */
-	public Map<String, String> rentTransaction(int fees, String contents, String cardNumber, String cardHolderName,
-			String expirationDate, String securityCode) {
-		Map<String, String> result = new Hashtable<String, String>();
-		result.put("RESULT", "TRANSACTION FAILED!");
-		try {
-			this.card = new CreditCard(cardNumber, cardHolderName, Integer.parseInt(securityCode), getExpirationDate(expirationDate));
-
-			this.interbank = new InterbankSubsystem();
-			int amount = 0;
-			// pay fees for rent a bike
-			amount = fees;
-			Transaction transaction = interbank.payTransaction(card, amount, contents);
-	
-			result.put("RESULT", "TRANSACTION SUCCESSFUL!");
-			result.put("MESSAGE", "You have succesffully paid the transaction!");
-		} catch (PaymentException | UnrecognizedException ex) {
-			result.put("MESSAGE", ex.getMessage());
-		}
-		return result;
-	}
-
-	
-	public boolean validateTransactionInfo(HashMap<String, String> message) {
-		for (Map.Entry<String, String> pair: message.entrySet()) {
-            if(pair.getValue() == "")
-            	return false;
-        }
-		return true;
 	}
 
 }

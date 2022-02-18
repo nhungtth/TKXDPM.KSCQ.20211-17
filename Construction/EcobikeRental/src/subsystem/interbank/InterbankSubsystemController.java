@@ -103,6 +103,8 @@ public class InterbankSubsystemController {
 			CreditCard card = new CreditCard((String) transaction.get("cardCode"), (String) transaction.get("owner"),
 					Integer.parseInt((String) transaction.get("cvvCode")), (String) transaction.get("dateExpired"));
 			trans = new Transaction(Integer.parseInt((String) transaction.get("amount")), (String) transaction.get("transactionContent"));
+			trans.setId((String) transaction.get("transactionId"));
+			trans.setType((String) transaction.get("command"));
 		}
 		
 		switch ((String)response.get("errorCode")) {

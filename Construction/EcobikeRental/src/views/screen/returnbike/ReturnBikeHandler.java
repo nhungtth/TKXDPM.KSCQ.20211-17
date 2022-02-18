@@ -3,12 +3,15 @@ package views.screen.returnbike;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import controller.BaseController;
 import controller.ReturnBikeController;
 import controller.TransactionController;
+import entity.bike.Bike;
 import entity.dock.Dock;
 import entity.rentbike.RentBike;
 import javafx.fxml.FXML;
@@ -21,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import utils.Configs;
+import utils.Utils;
 import views.screen.BaseScreenHandler;
 import views.screen.popup.PopupScreen;
 import views.screen.transaction.ReturnTransactionHandler;
@@ -111,7 +115,13 @@ public class ReturnBikeHandler extends BaseScreenHandler implements Initializabl
 	}
 
 	public void createTransactionHandler(Dock dock) throws SQLException, IOException {
-		ReturnTransactionHandler transactionHandler = new ReturnTransactionHandler(this.stage, Configs.RETURN_TRANSACTION_PATH, dock);
+		RentBike r = BaseController.getRentBike();
+		long time = Utils.calculateTime(r.getRentDate());
+		String type = r.getType();
+		int fee = getBController().calculateFees(time, type);
+		r.setReturnDate(Utils.getToday());
+		r.setReturnDock(dock.getId());
+		ReturnTransactionHandler transactionHandler = new ReturnTransactionHandler(this.stage, Configs.RETURN_TRANSACTION_PATH, r, fee, time);
 		transactionHandler.setBController(new TransactionController());
 		transactionHandler.setHomeScreenHandler(this.homeScreenHandler);
 		transactionHandler.show();

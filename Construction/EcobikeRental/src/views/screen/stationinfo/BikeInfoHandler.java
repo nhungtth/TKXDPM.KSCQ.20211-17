@@ -2,11 +2,15 @@ package views.screen.stationinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import controller.BaseController;
 import controller.HomeController;
+import controller.RentBikeController;
 import controller.TransactionController;
 import entity.bike.Bike;
+import entity.bike.StandardBike;
+import entity.bike.StandardEBike;
 import entity.dock.Dock;
 import entity.rentbike.RentBike;
 import entity.station.Station;
@@ -38,6 +42,9 @@ public class BikeInfoHandler extends BaseScreenHandler {
 
 	@FXML
 	private Text station;
+	
+	@FXML
+	private Text status;
 
 	@FXML
 	private Text address;
@@ -50,6 +57,13 @@ public class BikeInfoHandler extends BaseScreenHandler {
 	
 	@FXML
 	private Label bikeLabel;
+	
+	@FXML
+	private Text time;
+	
+	@FXML
+	private Text battery;
+	
 
 	public BikeInfoHandler(Stage stage, String screenPath, Bike bike, Station station) throws IOException {
 		super(stage, screenPath);
@@ -62,8 +76,20 @@ public class BikeInfoHandler extends BaseScreenHandler {
 		id.setText(this.bike.getId());
 		type.setText(this.bike.getType());
 		dock.setText(this.bike.getDockId());
+		if(!bike.isStatus()) {
+			status.setText("Rented");
+		}
 		station.setText(this.b_station.getName());
 		address.setText(this.b_station.getAddress());
+		
+		// detail info
+		if(this.bike.getType().equals(Configs.EBIKE)) {
+			StandardEBike b = new StandardEBike();
+			b.setId(this.bike.getId());
+			HashMap info = b.getAdvancedInfo();
+			time.setText((String) info.get("time"));
+			battery.setText((String) info.get("battery"));
+		}
 		
 		RentBike rb = getBController().getRentBike();
 		if ( rb != null && rb.getId() != null) {
@@ -86,7 +112,7 @@ public class BikeInfoHandler extends BaseScreenHandler {
 				RentBike rbike = new RentBike();
 				rbike.setId(bike.getId());
 				rbike.setRentDock(bike.getDockId());
-				rbike.setDeposit(getBController().calculateDeposit(bike.getType()));
+				rbike.setDeposit(new RentBikeController().calculateDeposit(bike.getPrice()));
 				rbike.setRentDate(Utils.getToday());
 
 				createTransactionHandler(rbike);
